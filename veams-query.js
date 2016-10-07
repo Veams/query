@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v1.0.0
+ * @version v1.0.1
  *
  * @author Andy Gutsche
  */
@@ -23,7 +23,7 @@ let VeamsQuery = function (selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v1.0.0';
+VeamsQuery.version = 'v1.0.1';
 
 
 /**
