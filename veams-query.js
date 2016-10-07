@@ -2,13 +2,13 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v1.0.1
+ * @version v1.0.2
  *
  * @author Andy Gutsche
  */
 
 
-let classListSupport = 'classList' in document.documentElement;
+var classListSupport = 'classList' in document.documentElement;
 
 
 /**
@@ -17,13 +17,13 @@ let classListSupport = 'classList' in document.documentElement;
  * @param {String | Object} selector - selector (string, VeamsQuery object, element)
  * @param {Object} [context] - context (VeamsQuery object, element)
  */
-let VeamsQuery = function (selector, context) {
+var VeamsQuery = function (selector, context) {
 	return new VeamsQueryObject(selector, context);
 };
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v1.0.1';
+VeamsQuery.version = 'v1.0.2';
 
 
 /**
@@ -33,9 +33,9 @@ VeamsQuery.version = 'v1.0.1';
  * @return {Object} - DOM node
  */
 VeamsQuery.parseHTML = function (htmlString) {
-	let parser = new DOMParser();
-	let content = 'text/html';
-	let DOM = parser.parseFromString(htmlString, content);
+	var parser = new DOMParser();
+	var content = 'text/html';
+	var DOM = parser.parseFromString(htmlString, content);
 
 	// return element
 	return DOM.body.childNodes[0];
@@ -53,7 +53,9 @@ VeamsQuery.parseHTML = function (htmlString) {
  * @param {Function} [opts.error] - error callback
  */
 VeamsQuery.ajax = function (opts) {
-	let options = {
+	var request;
+	var response;
+	var options = {
 		type: opts.type || 'GET',
 		url: opts.url,
 		dataType: opts.dataType || 'text',
@@ -63,12 +65,11 @@ VeamsQuery.ajax = function (opts) {
 		},
 	};
 
-	let request = new XMLHttpRequest();
+	request = new XMLHttpRequest();
 	request.open(options.type, options.url, true);
 
 	request.onload = function () {
 		if (request.status >= 200 && request.status < 400) {
-			let response;
 
 			if (options.dataType === 'json') {
 				response = JSON.parse(request.responseText);
@@ -97,9 +98,10 @@ VeamsQuery.ajax = function (opts) {
  * @param {String | Object} selector - selector (string, VeamsQuery object, element)
  * @param {Object} [context] - context (VeamsQuery object, element)
  */
-let VeamsQueryObject = function (selector, context) {
-	let scope;
-	let i = 0;
+var VeamsQueryObject = function (selector, context) {
+	var classes;
+	var scope;
+	var i = 0;
 	this.nodes = [];
 
 	if (!selector) {
@@ -140,7 +142,7 @@ let VeamsQueryObject = function (selector, context) {
 						this.nodes = this.nodes.concat([scope[i].getElementById(selector.substr(1))]);
 						break;
 					case '.':
-						let classes = selector.substr(1).replace(/\./g, ' ');
+						classes = selector.substr(1).replace(/\./g, ' ');
 						this.nodes = this.nodes.concat([].slice.call(scope[i].getElementsByClassName(classes)));
 						break;
 					default:
@@ -194,7 +196,7 @@ VeamsQueryObject.prototype.hasClass = function (className) {
  * @return {Boolean} - at least one element matches selector (true/false)
  */
 VeamsQueryObject.prototype.is = function (selector) {
-	let i = 0;
+	var i = 0;
 
 	if (!selector) {
 		return false;
@@ -219,8 +221,8 @@ VeamsQueryObject.prototype.is = function (selector) {
  * @return {Object} - VeamsQuery object
  */
 VeamsQueryObject.prototype.addClass = function (classNames) {
-	let i = 0;
-	let classes = classNames && classNames.split(' ');
+	var i = 0;
+	var classes = classNames && classNames.split(' ');
 
 	if (!classes) {
 		return false;
@@ -228,7 +230,7 @@ VeamsQueryObject.prototype.addClass = function (classNames) {
 
 	for (i; i < this.nodes.length; i++) {
 
-		for (let j = 0; j < classes.length; j++) {
+		for (var j = 0; j < classes.length; j++) {
 
 			if (classListSupport) {
 				this.nodes[i].classList.add(classes[j]);
@@ -253,8 +255,8 @@ VeamsQueryObject.prototype.addClass = function (classNames) {
  * @return {Object} - VeamsQuery object
  */
 VeamsQueryObject.prototype.removeClass = function (classNames) {
-	let i = 0;
-	let classes = classNames && classNames.split(' ');
+	var i = 0;
+	var classes = classNames && classNames.split(' ');
 
 	for (i; i < this.nodes.length; i++) {
 
@@ -263,7 +265,7 @@ VeamsQueryObject.prototype.removeClass = function (classNames) {
 		}
 		else {
 
-			for (let j = 0; j < classes.length; j++) {
+			for (var j = 0; j < classes.length; j++) {
 
 				if ('classList' in document.documentElement) {
 					this.nodes[i].classList.remove(classes[j]);
@@ -293,7 +295,7 @@ VeamsQueryObject.prototype.removeClass = function (classNames) {
  * @return {String|Object} - html contents | VeamsQuery object
  */
 VeamsQueryObject.prototype.html = function (htmlStr) {
-	let i = 0;
+	var i = 0;
 
 	if (!htmlStr) {
 		return this.nodes[0].innerHTML;
@@ -314,7 +316,7 @@ VeamsQueryObject.prototype.html = function (htmlStr) {
  * @return {Object} - VeamsQuery object
  */
 VeamsQueryObject.prototype.append = function (element) {
-	let i = 0;
+	var i = 0;
 
 	for (i; i < this.nodes.length; i++) {
 		if (typeof element === 'string') {
@@ -336,7 +338,7 @@ VeamsQueryObject.prototype.append = function (element) {
  * @return {Object} - VeamsQuery object
  */
 VeamsQueryObject.prototype.prepend = function (element) {
-	let i = 0;
+	var i = 0;
 
 	for (i; i < this.nodes.length; i++) {
 		if (typeof element === 'string') {
@@ -358,7 +360,7 @@ VeamsQueryObject.prototype.prepend = function (element) {
  * @return {Object} - VeamsQuery object
  */
 VeamsQueryObject.prototype.before = function (element) {
-	let i = 0;
+	var i = 0;
 
 	for (i; i < this.nodes.length; i++) {
 		if (typeof element === 'string') {
@@ -379,7 +381,7 @@ VeamsQueryObject.prototype.before = function (element) {
  * @return {Object} - VeamsQuery object
  */
 VeamsQueryObject.prototype.after = function (element) {
-	let i = 0;
+	var i = 0;
 
 	for (i; i < this.nodes.length; i++) {
 		if (typeof element === 'string') {
@@ -401,7 +403,7 @@ VeamsQueryObject.prototype.after = function (element) {
  * @return {Object} - VeamsQuery object
  */
 VeamsQueryObject.prototype.remove = function () {
-	let i = 0;
+	var i = 0;
 
 	for (i; i < this.nodes.length; i++) {
 		this.nodes[i].parentNode.removeChild(this.nodes[i]);
@@ -417,7 +419,7 @@ VeamsQueryObject.prototype.remove = function () {
  * @return {Object} - VeamsQuery object
  */
 VeamsQueryObject.prototype.empty = function () {
-	let i = 0;
+	var i = 0;
 
 	for (i; i < this.nodes.length; i++) {
 		while (this.nodes[i].firstChild) {
@@ -449,7 +451,7 @@ VeamsQueryObject.prototype.eq = function (index) {
  * @return {String|Number|Boolean|Object} - attribute value | VeamsQuery object
  */
 VeamsQueryObject.prototype.attr = function (attrName, attrVal) {
-	let i = 0;
+	var i = 0;
 
 	if (!attrVal) {
 		return this.nodes[0].getAttribute(attrName);
@@ -469,7 +471,7 @@ VeamsQueryObject.prototype.attr = function (attrName, attrVal) {
  * @return {Object} - VeamsQuery object
  */
 VeamsQueryObject.prototype.removeAttr = function (attrName) {
-	let i = 0;
+	var i = 0;
 
 	if (!attrName) {
 		return false;
@@ -491,8 +493,8 @@ VeamsQueryObject.prototype.removeAttr = function (attrName) {
  * @return {String|Object} - text | VeamsQuery object
  */
 VeamsQueryObject.prototype.text = function (text) {
-	let i = 0;
-	let combinedText = '';
+	var i = 0;
+	var combinedText = '';
 
 	for (i; i < this.nodes.length; i++) {
 
@@ -521,7 +523,7 @@ VeamsQueryObject.prototype.text = function (text) {
  * @return {String|Object} - css value | VeamsQuery object
  */
 VeamsQueryObject.prototype.css = function (cssProp, cssVal) {
-	let i = 0;
+	var i = 0;
 
 	if (typeof cssProp === 'string') {
 
@@ -538,7 +540,7 @@ VeamsQueryObject.prototype.css = function (cssProp, cssVal) {
 	else if (typeof cssProp === 'object') {
 
 		for (i; i < this.nodes.length; i++) {
-			for (let prop in cssProp) {
+			for (var prop in cssProp) {
 				if (cssProp.hasOwnProperty(prop)) {
 					this.nodes[i].style[prop] = cssProp[prop];
 				}
@@ -580,9 +582,9 @@ VeamsQueryObject.prototype.index = function () {
  * @return {Object} - VeamsQuery object
  */
 VeamsQueryObject.prototype.on = function (eventNames, handler) {
-	let i = 0;
-	let j = 0;
-	let events = eventNames.split(' ');
+	var i = 0;
+	var j = 0;
+	var events = eventNames.split(' ');
 
 	for (i; i < this.nodes.length; i++) {
 
@@ -603,9 +605,9 @@ VeamsQueryObject.prototype.on = function (eventNames, handler) {
  * @return {Object} - VeamsQuery object
  */
 VeamsQueryObject.prototype.off = function (eventNames, handler) {
-	let i = 0;
-	let j = 0;
-	let events = eventNames.split(' ');
+	var i = 0;
+	var j = 0;
+	var events = eventNames.split(' ');
 
 	for (i; i < this.nodes.length; i++) {
 
@@ -626,9 +628,9 @@ VeamsQueryObject.prototype.off = function (eventNames, handler) {
  * @return {Object} - VeamsQuery object
  */
 VeamsQueryObject.prototype.trigger = function (eventNames, customData) {
-	let i = 0;
-	let j = 0;
-	let events = eventNames.split(' ');
+	var i = 0;
+	var j = 0;
+	var events = eventNames.split(' ');
 
 	for (i; i < this.nodes.length; i++) {
 
