@@ -102,6 +102,7 @@ var VeamsQueryObject = function (selector, context) {
 	var classes;
 	var scope;
 	var i = 0;
+	
 	this.nodes = [];
 
 	if (!selector) {
