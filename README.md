@@ -26,7 +26,7 @@ import VeamsQuery from '../bower-components/veams-query/veams-query';
 
 ## Usage
 
-Documentation of all static and member functions below
+Documentation of all functions (Selector, support and DOM) below
 
 ### Selector function
 
@@ -40,7 +40,7 @@ Documentation of all static and member functions below
  */
 ```
 
-### Static functions
+### Support functions
 
 #### VeamsQuery.parseHTML( htmlString:string )
 ``` js
@@ -66,7 +66,7 @@ Documentation of all static and member functions below
  */
 ```
 
-### Member functions
+### DOM functions
 
 #### .find( selector:string|object )
 ``` js
