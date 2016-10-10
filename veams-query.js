@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v1.0.2
+ * @version v1.0.3
  *
  * @author Andy Gutsche
  */
@@ -23,7 +23,7 @@ var VeamsQuery = function (selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v1.0.2';
+VeamsQuery.version = 'v1.0.3';
 
 
 /**
@@ -59,10 +59,8 @@ VeamsQuery.ajax = function (opts) {
 		type: opts.type || 'GET',
 		url: opts.url,
 		dataType: opts.dataType || 'text',
-		success: opts.success || function () {
-		},
-		error: opts.error || function () {
-		},
+		success: opts.success || function () {},
+		error: opts.error || function () {}
 	};
 
 	request = new XMLHttpRequest();

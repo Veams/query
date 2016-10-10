@@ -1,3 +1,6 @@
+### v1.0.3
+- remove trailing comma in variable declaration
+
 ### v1.0.2
 - use ES5 variable declaration
 
