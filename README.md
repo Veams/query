@@ -26,7 +26,7 @@ import VeamsQuery from '../bower-components/veams-query/veams-query';
 
 ## Usage
 
-Documentation of all functions (Selector, support and DOM) below
+Documentation of all functions (Selector, support and DOM)
 
 ### Selector function
 
