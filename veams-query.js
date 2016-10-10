@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v1.0.3
+ * @version v1.1.0
  *
  * @author Andy Gutsche
  */
@@ -23,7 +23,7 @@ var VeamsQuery = function (selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v1.0.3';
+VeamsQuery.version = 'v1.1.0';
 
 
 /**
@@ -59,8 +59,10 @@ VeamsQuery.ajax = function (opts) {
 		type: opts.type || 'GET',
 		url: opts.url,
 		dataType: opts.dataType || 'text',
-		success: opts.success || function () {},
-		error: opts.error || function () {}
+		success: opts.success || function () {
+		},
+		error: opts.error || function () {
+		}
 	};
 
 	request = new XMLHttpRequest();
@@ -99,34 +101,43 @@ VeamsQuery.ajax = function (opts) {
 var VeamsQueryObject = function (selector, context) {
 	var classes;
 	var scope;
+	var queryRes = [];
 	var i = 0;
-	
-	this.nodes = [];
+	var j = 0;
 
 	if (!selector) {
 		return;
 	}
 
-	// plain dom node or window object
+	// element or window object
 	if (selector.nodeType || selector === window) {
-		this.nodes.push(selector);
+		this[0] = selector;
+		this.length = 1;
 
 		return;
 	}
 
 	// VeamsQuery object
-	if (selector.nodes) {
-		this.nodes = selector.nodes.slice();
+	if (selector[0] && selector[0].nodeType) {
+
+		for (var prop in selector) {
+			if (selector.hasOwnProperty(prop)) {
+				this[prop] = selector[prop];
+			}
+		}
 
 		return;
 	}
 
 	if (context) {
-		if (!context.nodes.length) {
-			return;
-		}
 
-		scope = context.nodes;
+		// context is element
+		if (context.nodeType) {
+			scope = [context]
+		}
+		else if(context[0] && context[0].nodeType) { // context is VeamsQuery object
+			scope = context;
+		}
 	}
 	else {
 		scope = [document];
@@ -138,24 +149,29 @@ var VeamsQueryObject = function (selector, context) {
 			if (/^(#?[\w-]+|\.[\w-.]+)$/.test(selector)) {
 				switch (selector.charAt(0)) {
 					case '#':
-						this.nodes = this.nodes.concat([scope[i].getElementById(selector.substr(1))]);
+						queryRes = queryRes.concat([scope[i].getElementById(selector.substr(1))]);
 						break;
 					case '.':
 						classes = selector.substr(1).replace(/\./g, ' ');
-						this.nodes = this.nodes.concat([].slice.call(scope[i].getElementsByClassName(classes)));
+						queryRes = queryRes.concat([].slice.call(scope[i].getElementsByClassName(classes)));
 						break;
 					default:
-						this.nodes = this.nodes.concat([].slice.call(scope[i].getElementsByTagName(selector)));
+						queryRes = queryRes.concat([].slice.call(scope[i].getElementsByTagName(selector)));
 				}
 			}
 			else {
-				this.nodes = this.nodes.concat([].slice.call(scope[i].querySelectorAll(selector)));
+				queryRes = queryRes.concat([].slice.call(scope[i].querySelectorAll(selector)));
 			}
 		} catch (e) {
 			console.warn('VeamsQuery says: "', e, '"');
 		}
 	}
 
+	for (j; j < queryRes.length; j++) {
+		this[j] = queryRes[j];
+	}
+
+	this.length = queryRes.length;
 };
 
 
@@ -180,9 +196,9 @@ VeamsQueryObject.prototype.find = function (selector) {
  */
 VeamsQueryObject.prototype.hasClass = function (className) {
 	if (classListSupport) {
-		return this.nodes[0].classList.contains(className);
+		return this[0].classList.contains(className);
 	} else {
-		return new RegExp("(^|\\s+)" + className + "(\\s+|$)").test(this.nodes[0].className);
+		return new RegExp("(^|\\s+)" + className + "(\\s+|$)").test(this[0].className);
 	}
 };
 
@@ -201,10 +217,10 @@ VeamsQueryObject.prototype.is = function (selector) {
 		return false;
 	}
 
-	for (i; i < this.nodes.length; i++) {
-		if ((this.nodes[i].matches || this.nodes[i].matchesSelector || this.nodes[i].msMatchesSelector ||
-				this.nodes[i].mozMatchesSelector || this.nodes[i].webkitMatchesSelector ||
-				this.nodes[i].oMatchesSelector).call(this.nodes[i], selector)) {
+	for (i; i < this.length; i++) {
+		if ((this[i].matches || this[i].matchesSelector || this[i].msMatchesSelector ||
+				this[i].mozMatchesSelector || this[i].webkitMatchesSelector ||
+				this[i].oMatchesSelector).call(this[i], selector)) {
 			return true;
 		}
 	}
@@ -227,15 +243,15 @@ VeamsQueryObject.prototype.addClass = function (classNames) {
 		return false;
 	}
 
-	for (i; i < this.nodes.length; i++) {
+	for (i; i < this.length; i++) {
 
 		for (var j = 0; j < classes.length; j++) {
 
 			if (classListSupport) {
-				this.nodes[i].classList.add(classes[j]);
+				this[i].classList.add(classes[j]);
 			} else {
-				if (this.nodes[i].className.split(' ').indexOf(classes[j]) === -1) {
-					this.nodes[i].className = this.nodes[i].className + ' ' + classes[j];
+				if (this[i].className.split(' ').indexOf(classes[j]) === -1) {
+					this[i].className = this[i].className + ' ' + classes[j];
 				}
 			}
 
@@ -257,25 +273,25 @@ VeamsQueryObject.prototype.removeClass = function (classNames) {
 	var i = 0;
 	var classes = classNames && classNames.split(' ');
 
-	for (i; i < this.nodes.length; i++) {
+	for (i; i < this.length; i++) {
 
 		if (!classes) {
-			this.nodes[i].removeAttribute('class');
+			this[i].removeAttribute('class');
 		}
 		else {
 
 			for (var j = 0; j < classes.length; j++) {
 
 				if ('classList' in document.documentElement) {
-					this.nodes[i].classList.remove(classes[j]);
+					this[i].classList.remove(classes[j]);
 				}
 				else {
-					this.nodes[i].className =
-							this.nodes[i].className.replace(new RegExp("(^|\\s+)" + classes[j] + "(\\s+|$)"), ' ');
+					this[i].className =
+							this[i].className.replace(new RegExp("(^|\\s+)" + classes[j] + "(\\s+|$)"), ' ');
 				}
 
-				if (!this.nodes[i].className.length) {
-					this.nodes[i].removeAttribute('class');
+				if (!this[i].className.length) {
+					this[i].removeAttribute('class');
 				}
 
 			}
@@ -297,11 +313,11 @@ VeamsQueryObject.prototype.html = function (htmlStr) {
 	var i = 0;
 
 	if (!htmlStr) {
-		return this.nodes[0].innerHTML;
+		return this[0].innerHTML;
 	}
 
-	for (i; i < this.nodes.length; i++) {
-		this.nodes[i].innerHTML = htmlStr;
+	for (i; i < this.length; i++) {
+		this[i].innerHTML = htmlStr;
 	}
 
 	return this;
@@ -317,12 +333,12 @@ VeamsQueryObject.prototype.html = function (htmlStr) {
 VeamsQueryObject.prototype.append = function (element) {
 	var i = 0;
 
-	for (i; i < this.nodes.length; i++) {
+	for (i; i < this.length; i++) {
 		if (typeof element === 'string') {
-			this.nodes[i].insertAdjacentHTML('beforeend', element);
+			this[i].insertAdjacentHTML('beforeend', element);
 		}
 		else {
-			this.nodes[i].appendChild(element.nodes && element.nodes[0] || element);
+			this[i].appendChild(element && element[0] || element);
 		}
 	}
 
@@ -339,12 +355,12 @@ VeamsQueryObject.prototype.append = function (element) {
 VeamsQueryObject.prototype.prepend = function (element) {
 	var i = 0;
 
-	for (i; i < this.nodes.length; i++) {
+	for (i; i < this.length; i++) {
 		if (typeof element === 'string') {
-			this.nodes[i].insertAdjacentHTML('afterbegin', element);
+			this[i].insertAdjacentHTML('afterbegin', element);
 		}
 		else {
-			this.nodes[i].insertBefore(element.nodes && element.nodes[0] || element, this.nodes[i].firstChild);
+			this[i].insertBefore(element && element[0] || element, this[i].firstChild);
 		}
 	}
 
@@ -361,12 +377,12 @@ VeamsQueryObject.prototype.prepend = function (element) {
 VeamsQueryObject.prototype.before = function (element) {
 	var i = 0;
 
-	for (i; i < this.nodes.length; i++) {
+	for (i; i < this.length; i++) {
 		if (typeof element === 'string') {
-			this.nodes[i].insertAdjacentHTML('beforebegin', element);
+			this[i].insertAdjacentHTML('beforebegin', element);
 		}
 		else {
-			this.nodes[i].parentNode.insertBefore(element.nodes && element.nodes[0] || element, this.nodes[i]);
+			this[i].parentNode.insertBefore(element && element[0] || element, this[i]);
 		}
 	}
 
@@ -382,13 +398,13 @@ VeamsQueryObject.prototype.before = function (element) {
 VeamsQueryObject.prototype.after = function (element) {
 	var i = 0;
 
-	for (i; i < this.nodes.length; i++) {
+	for (i; i < this.length; i++) {
 		if (typeof element === 'string') {
-			this.nodes[i].insertAdjacentHTML('afterend', element);
+			this[i].insertAdjacentHTML('afterend', element);
 		}
 		else {
-			this.nodes[i].parentNode.insertBefore(element.nodes && element.nodes[0] || element,
-					this.nodes[i].nextElementSibling);
+			this[i].parentNode.insertBefore(element && element[0] || element,
+					this[i].nextElementSibling);
 		}
 	}
 
@@ -404,8 +420,8 @@ VeamsQueryObject.prototype.after = function (element) {
 VeamsQueryObject.prototype.remove = function () {
 	var i = 0;
 
-	for (i; i < this.nodes.length; i++) {
-		this.nodes[i].parentNode.removeChild(this.nodes[i]);
+	for (i; i < this.length; i++) {
+		this[i].parentNode.removeChild(this[i]);
 	}
 
 	return this;
@@ -420,9 +436,9 @@ VeamsQueryObject.prototype.remove = function () {
 VeamsQueryObject.prototype.empty = function () {
 	var i = 0;
 
-	for (i; i < this.nodes.length; i++) {
-		while (this.nodes[i].firstChild) {
-			this.nodes[i].removeChild(this.nodes[i].firstChild);
+	for (i; i < this.length; i++) {
+		while (this[i].firstChild) {
+			this[i].removeChild(this[i].firstChild);
 		}
 	}
 
@@ -437,7 +453,7 @@ VeamsQueryObject.prototype.empty = function () {
  * @return {Object} - VeamsQuery object containing node at given index of original node list
  */
 VeamsQueryObject.prototype.eq = function (index) {
-	return new VeamsQueryObject(this.nodes[index]);
+	return new VeamsQueryObject(this[index]);
 };
 
 
@@ -453,11 +469,11 @@ VeamsQueryObject.prototype.attr = function (attrName, attrVal) {
 	var i = 0;
 
 	if (!attrVal) {
-		return this.nodes[0].getAttribute(attrName);
+		return this[0].getAttribute(attrName);
 	}
 
-	for (i; i < this.nodes.length; i++) {
-		this.nodes[i].setAttribute(attrName, attrVal);
+	for (i; i < this.length; i++) {
+		this[i].setAttribute(attrName, attrVal);
 	}
 
 	return this;
@@ -476,8 +492,8 @@ VeamsQueryObject.prototype.removeAttr = function (attrName) {
 		return false;
 	}
 
-	for (i; i < this.nodes.length; i++) {
-		this.nodes[i].removeAttribute(attrName);
+	for (i; i < this.length; i++) {
+		this[i].removeAttribute(attrName);
 	}
 
 	return this;
@@ -495,13 +511,13 @@ VeamsQueryObject.prototype.text = function (text) {
 	var i = 0;
 	var combinedText = '';
 
-	for (i; i < this.nodes.length; i++) {
+	for (i; i < this.length; i++) {
 
 		if (!text) {
-			combinedText += this.nodes[i].innerText;
+			combinedText += this[i].innerText;
 		}
 		else {
-			this.nodes[i].innerText = text;
+			this[i].innerText = text;
 		}
 	}
 
@@ -527,21 +543,21 @@ VeamsQueryObject.prototype.css = function (cssProp, cssVal) {
 	if (typeof cssProp === 'string') {
 
 		if (!cssVal) {
-			return this.nodes[0].style[cssProp];
+			return this[0].style[cssProp];
 		}
 		else {
 
-			for (i; i < this.nodes.length; i++) {
-				this.nodes[i].style[cssProp] = cssVal;
+			for (i; i < this.length; i++) {
+				this[i].style[cssProp] = cssVal;
 			}
 		}
 	}
 	else if (typeof cssProp === 'object') {
 
-		for (i; i < this.nodes.length; i++) {
+		for (i; i < this.length; i++) {
 			for (var prop in cssProp) {
 				if (cssProp.hasOwnProperty(prop)) {
-					this.nodes[i].style[prop] = cssProp[prop];
+					this[i].style[prop] = cssProp[prop];
 				}
 			}
 		}
@@ -558,7 +574,7 @@ VeamsQueryObject.prototype.css = function (cssProp, cssVal) {
  * @return {Object} - clone of dom node
  */
 VeamsQueryObject.prototype.clone = function (withChildren) {
-	return this.nodes[0].cloneNode(withChildren);
+	return this[0].cloneNode(withChildren);
 };
 
 
@@ -569,7 +585,7 @@ VeamsQueryObject.prototype.clone = function (withChildren) {
  * @return {Number} - index of element among its siblings
  */
 VeamsQueryObject.prototype.index = function () {
-	return [].slice.call(this.nodes[0].parentNode.children).indexOf(this.nodes[0]);
+	return [].slice.call(this[0].parentNode.children).indexOf(this[0]);
 };
 
 
@@ -585,10 +601,10 @@ VeamsQueryObject.prototype.on = function (eventNames, handler) {
 	var j = 0;
 	var events = eventNames.split(' ');
 
-	for (i; i < this.nodes.length; i++) {
+	for (i; i < this.length; i++) {
 
 		for (j; j < events.length; j++) {
-			this.nodes[i].addEventListener(events[j], handler);
+			this[i].addEventListener(events[j], handler);
 		}
 	}
 
@@ -608,10 +624,10 @@ VeamsQueryObject.prototype.off = function (eventNames, handler) {
 	var j = 0;
 	var events = eventNames.split(' ');
 
-	for (i; i < this.nodes.length; i++) {
+	for (i; i < this.length; i++) {
 
 		for (j; j < events.length; j++) {
-			this.nodes[i].removeEventListener(events[j], handler);
+			this[i].removeEventListener(events[j], handler);
 		}
 	}
 
@@ -631,15 +647,15 @@ VeamsQueryObject.prototype.trigger = function (eventNames, customData) {
 	var j = 0;
 	var events = eventNames.split(' ');
 
-	for (i; i < this.nodes.length; i++) {
+	for (i; i < this.length; i++) {
 
 		for (j; j < events.length; j++) {
 
-			if (typeof this.nodes[i][events[j]] === 'function') {
-				this.nodes[i][events[j]]();
+			if (typeof this[i][events[j]] === 'function') {
+				this[i][events[j]]();
 			}
 			else {
-				this.nodes[i].dispatchEvent(new CustomEvent(events[j], {detail: customData}));
+				this[i].dispatchEvent(new CustomEvent(events[j], {detail: customData}));
 			}
 		}
 	}
