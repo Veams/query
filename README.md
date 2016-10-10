@@ -7,8 +7,17 @@ Represents a very simple DOM API for Veams-JS (incl. ajax support)
 Latest version is ```v1.0.3```
 
 ## Getting started
+
+### Installation
+
+```
+bower install veams-query --save
+```
+
+### Import
+
 ``` js
-import VeamsQuery from './path-to-veams-query/veams-query';
+import VeamsQuery from '../bower-components/veams-query/veams-query';
 ```
 
 ## Usage
