@@ -16,6 +16,10 @@ bower install veams-query --save
 
 ### Import
 
+Use relative path to your bower components folder
+
+_Example:_
+
 ``` js
 import VeamsQuery from '../bower-components/veams-query/veams-query';
 ```
