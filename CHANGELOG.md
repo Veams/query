@@ -1,3 +1,7 @@
+### v1.2.0
+- add functions outerHeight and outerWidth
+- fix issue in css function
+
 ### v1.1.0
 - add elements and length property to VeamsQueryObject
 - remove node property

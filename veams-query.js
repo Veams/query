@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v1.1.0
+ * @version v1.2.0
  *
  * @author Andy Gutsche
  */
@@ -23,7 +23,7 @@ var VeamsQuery = function (selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v1.1.0';
+VeamsQuery.version = 'v1.2.0';
 
 
 /**
@@ -135,7 +135,7 @@ var VeamsQueryObject = function (selector, context) {
 		if (context.nodeType) {
 			scope = [context]
 		}
-		else if(context[0] && context[0].nodeType) { // context is VeamsQuery object
+		else if (context[0] && context[0].nodeType) { // context is VeamsQuery object
 			scope = context;
 		}
 	}
@@ -542,7 +542,7 @@ VeamsQueryObject.prototype.css = function (cssProp, cssVal) {
 
 	if (typeof cssProp === 'string') {
 
-		if (!cssVal) {
+		if (typeof cssVal === 'undefined') {
 			return this[0].style[cssProp];
 		}
 		else {
@@ -566,6 +566,49 @@ VeamsQueryObject.prototype.css = function (cssProp, cssVal) {
 	return this;
 };
 
+/**
+ *  Get the current computed height for the first element in the set of matched elements, including padding,
+ *  border and optionally margin
+ *
+ * @param {Boolean} [includeMargin=false] - include the element's margin in the calculation (true/false)
+ * @return {Number} - height
+ */
+VeamsQueryObject.prototype.outerHeight = function (includeMargin) {
+	var height = this[0].offsetHeight;
+	var style;
+
+	if (!includeMargin || includeMargin && typeof includeMargin !== 'boolean') {
+		return height;
+	}
+
+	style = getComputedStyle(this[0]);
+	height += parseInt(style.marginTop) + parseInt(style.marginBottom);
+
+	return height;
+};
+
+
+/**
+ * Get the current computed width for the first element in the set of matched elements, including padding,
+ * border and optionally margin
+ *
+ * @param {Boolean} [includeMargin=false] - include the element's margin in the calculation (true/false)
+ * @return {Number} - width
+ */
+VeamsQueryObject.prototype.outerWidth = function (includeMargin) {
+	var width = this[0].offsetWidth;
+	var style;
+
+	if (!includeMargin || includeMargin && typeof includeMargin !== 'boolean') {
+		return width;
+	}
+
+	style = getComputedStyle(this[0]);
+	width += parseInt(style.marginLeft) + parseInt(style.marginRight);
+
+	return width;
+};
+
 
 /**
  * Create a deep copy of the first element in the set of matched elements (without data and events)
@@ -574,7 +617,7 @@ VeamsQueryObject.prototype.css = function (cssProp, cssVal) {
  * @return {Object} - clone of dom node
  */
 VeamsQueryObject.prototype.clone = function (withChildren) {
-	return this[0].cloneNode(withChildren);
+	return new VeamsQueryObject(this[0].cloneNode(withChildren));
 };
 
 

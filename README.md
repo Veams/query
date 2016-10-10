@@ -4,7 +4,7 @@ Represents a very simple DOM API for Veams-JS (incl. ajax support)
 
 ## Version
 
-Latest version is ```v1.1.0```
+Latest version is ```v1.2.0```
 
 ## Getting started
 
