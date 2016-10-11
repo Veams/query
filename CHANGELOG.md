@@ -1,6 +1,11 @@
+### v1.3.0
+- add function .closest()
+- add support for selector in function .on()
+- set length to 0 if no selector passed to selector function
+
 ### v1.2.0
-- add functions outerHeight and outerWidth
-- fix issue in css function
+- add functions .outerHeight() and .outerWidth()
+- fix issue in function .css()
 
 ### v1.1.0
 - add elements and length property to VeamsQueryObject

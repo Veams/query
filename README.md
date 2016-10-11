@@ -4,7 +4,7 @@ Represents a very simple DOM API for Veams-JS (incl. ajax support)
 
 ## Version
 
-Latest version is ```v1.2.0```
+Latest version is ```v1.3.0```
 
 ## Getting started
 
@@ -75,6 +75,17 @@ Documentation of all functions (Selector, support and DOM)
  * VeamsQuery object, or element
  *
  * @param {String|Object} selector - selector (string, VeamsQuery object, element)
+ * @return {Object} - VeamsQuery object
+ */
+```
+
+#### .closest( selector:string )
+``` js
+/**
+ * For each element in the set, get the first element that matches the selector by testing
+ * the element itself and traversing up through its ancestors in the DOM tree
+ *
+ * @param {String} selector - selector
  * @return {Object} - VeamsQuery object
  */
 ```
@@ -179,6 +190,28 @@ Documentation of all functions (Selector, support and DOM)
  * @param {String|Object} cssProp - css property
  * @param {String} cssVal - css value
  * @return {Object} - VeamsQuery object
+ */
+```
+
+#### .outerHeight( includeMargin:boolean)
+``` js
+/**
+ *  Get the current computed height for the first element in the set of matched elements,
+ *  including padding, border and optionally margin
+ *
+ * @param {Boolean} [includeMargin=false] - include element's margin in calculation (true/false)
+ * @return {Number} - height
+ */
+```
+
+#### .outerWidth( includeMargin:boolean)
+``` js
+/**
+ * Get the current computed width for the first element in the set of matched elements,
+ * including padding,border and optionally margin
+ *
+ * @param {Boolean} [includeMargin=false] - include element's margin in calculation (true/false)
+ * @return {Number} - width
  */
 ```
 
@@ -299,12 +332,13 @@ Documentation of all functions (Selector, support and DOM)
  */
 ```
 
-#### .on( eventNames:string, handler:function)
+#### .on( eventNames:string[, selector:string] ,handler:function)
 ``` js
 /**
  * Attach an event handler function for one or more events to the selected elements
  *
  * @param {String} eventNames - name(s) of event(s) to be registered for matched set of elements
+ * @param {String} [selector] - selector string to filter descendants of selected elements triggering the event
  * @param {Function} handler - event handler function
  * @return {Object} - VeamsQuery object
  */

@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v1.2.0
+ * @version v1.3.0
  *
  * @author Andy Gutsche
  */
@@ -23,8 +23,7 @@ var VeamsQuery = function (selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v1.2.0';
-
+VeamsQuery.version = 'v1.3.0';
 
 /**
  * Return DOM element created from given HTML string
@@ -106,6 +105,8 @@ var VeamsQueryObject = function (selector, context) {
 	var j = 0;
 
 	if (!selector) {
+		this.length = 0;
+
 		return;
 	}
 
@@ -185,6 +186,49 @@ var VeamsQueryObject = function (selector, context) {
 VeamsQueryObject.prototype.find = function (selector) {
 
 	return new VeamsQueryObject(selector, this);
+};
+
+
+/**
+ * For each element in the set, get the first element that matches the selector by testing
+ * the element itself and traversing up through its ancestors in the DOM tree
+ *
+ * @param {String} selector - selector
+ * @return {Object} - VeamsQuery object
+ */
+VeamsQueryObject.prototype.closest = function (selector) {
+	var i = 0;
+	var j = 0;
+	var k = 0;
+	var returnObj = VeamsQuery();
+	var matchesSelector;
+
+	if (!selector) {
+		return false;
+	}
+
+	for (i; i < this.length; i++) {
+		matchesSelector = this[i].matches || this[i].webkitMatchesSelector || this[i].mozMatchesSelector ||
+				this[i].msMatchesSelector;
+
+		while (this[i]) {
+			if (matchesSelector.call(this[i], selector)) {
+				break;
+			}
+			this[i] = this[i].parentElement;
+		}
+	}
+
+	for (j; j < this.length; j++) {
+		if (this[j]) {
+			returnObj[k] = this[j];
+			k++;
+		}
+	}
+
+	returnObj.length = k;
+
+	return returnObj;
 };
 
 
@@ -636,18 +680,34 @@ VeamsQueryObject.prototype.index = function () {
  * Attach an event handler function for one or more events to the selected elements
  *
  * @param {String} eventNames - name(s) of event(s) to be registered for matched set of elements
+ * @param {String} [selector] - selector string to filter descendants of selected elements triggering the event
  * @param {Function} handler - event handler function
  * @return {Object} - VeamsQuery object
  */
-VeamsQueryObject.prototype.on = function (eventNames, handler) {
+VeamsQueryObject.prototype.on = function (eventNames, selector, handler) {
 	var i = 0;
 	var j = 0;
 	var events = eventNames.split(' ');
+	var evtHandler = typeof selector === 'function' ? selector : handler;
+	var delegateTarget;
 
 	for (i; i < this.length; i++) {
 
 		for (j; j < events.length; j++) {
-			this[i].addEventListener(events[j], handler);
+
+			this[i].addEventListener(events[j], function (e) {
+
+				if (typeof selector === 'string') {
+					delegateTarget = VeamsQuery(e.target).closest(selector);
+
+					if (delegateTarget && delegateTarget.length) {
+						evtHandler(e, delegateTarget[0]);
+					}
+				}
+				else {
+					evtHandler(e, e.currentTarget);
+				}
+			});
 		}
 	}
 
