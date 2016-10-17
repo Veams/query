@@ -4,7 +4,7 @@ Represents a very simple DOM API for Veams-JS (incl. ajax support)
 
 ## Version
 
-Latest version is ```v1.3.0```
+Latest version is ```v1.4.0```
 
 ## Getting started
 
@@ -329,6 +329,27 @@ Documentation of all functions (Selector, support and DOM)
  * to its sibling elements
  *
  * @return {Number} - index of element among its siblings
+ */
+```
+
+#### .prop( propName:string )
+``` js
+/**
+ * Get the value of a property for the first element in the set of matched elements
+ *
+ * @param {String} propName - property name
+ * @return {String|Number|Boolean|Object} - property value
+ */
+```
+
+#### .prop( propName:string, propVal:string|number|boolean|object )
+``` js
+/**
+ * Set value of a property for the set of matched elements
+ *
+ * @param {String} propName - property name
+ * @param {String|Number|Boolean|Object} propVal - property value
+ * @return {Object} - VeamsQuery object
  */
 ```
 

@@ -1,3 +1,6 @@
+### v1.4.0
+- add function .prop()
+
 ### v1.3.0
 - add function .closest()
 - add support for selector in function .on()

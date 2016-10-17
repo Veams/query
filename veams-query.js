@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v1.3.0
+ * @version v1.4.0
  *
  * @author Andy Gutsche
  */
@@ -23,7 +23,7 @@ var VeamsQuery = function (selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v1.3.0';
+VeamsQuery.version = 'v1.4.0';
 
 /**
  * Return DOM element created from given HTML string
@@ -512,7 +512,7 @@ VeamsQueryObject.prototype.eq = function (index) {
 VeamsQueryObject.prototype.attr = function (attrName, attrVal) {
 	var i = 0;
 
-	if (!attrVal) {
+	if (typeof attrVal === 'undefined') {
 		return this[0].getAttribute(attrName);
 	}
 
@@ -522,6 +522,7 @@ VeamsQueryObject.prototype.attr = function (attrName, attrVal) {
 
 	return this;
 };
+
 
 /**
  * Remove an attribute from each element in the set of matched elements
@@ -673,6 +674,29 @@ VeamsQueryObject.prototype.clone = function (withChildren) {
  */
 VeamsQueryObject.prototype.index = function () {
 	return [].slice.call(this[0].parentNode.children).indexOf(this[0]);
+};
+
+
+/**
+ * Get the value of a property for the first element in the set of matched elements
+ * Set value of a property for the set of matched elements
+ *
+ * @param {String} propName - property name
+ * @param {String|Number|Boolean} [propVal] - property value
+ * @return {String|Number|Boolean|Object} - property value | VeamsQuery object
+ */
+VeamsQueryObject.prototype.prop = function (propName, propVal) {
+	var i = 0;
+
+	if (typeof propVal === 'undefined') {
+		return this[0][propName];
+	}
+
+	for (i; i < this.length; i++) {
+		this[i][propName] = propVal;
+	}
+
+	return this;
 };
 
 
