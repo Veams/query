@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v1.4.1
+ * @version v1.5.0
  *
  * @author Andy Gutsche
  */
@@ -23,7 +23,7 @@ var VeamsQuery = function (selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v1.4.1';
+VeamsQuery.version = 'v1.5.0';
 
 /**
  * Return DOM element created from given HTML string
@@ -611,6 +611,7 @@ VeamsQueryObject.prototype.css = function (cssProp, cssVal) {
 	return this;
 };
 
+
 /**
  *  Get the current computed height for the first element in the set of matched elements, including padding,
  *  border and optionally margin
@@ -656,6 +657,22 @@ VeamsQueryObject.prototype.outerWidth = function (includeMargin) {
 
 
 /**
+ *  Get the current coordinates of the first element in the set of matched elements,
+ *  relative to the document
+ *
+ * @return {Object} - offset (offset.top, offset.left)
+ */
+VeamsQueryObject.prototype.offset = function () {
+	var rect = this[0].getBoundingClientRect();
+
+	return {
+		top: rect.top + document.body.scrollTop,
+		left: rect.left + document.body.scrollLeft
+	};
+};
+
+
+/**
  * Create a deep copy of the first element in the set of matched elements (without data and events)
  *
  * @param {Boolean} [withChildren=false] - clone with children (true/false)
@@ -694,6 +711,28 @@ VeamsQueryObject.prototype.prop = function (propName, propVal) {
 
 	for (i; i < this.length; i++) {
 		this[i][propName] = propVal;
+	}
+
+	return this;
+};
+
+
+/**
+ * Get the current value of the first element in the set of matched elements.
+ * Set the value of each element in the set of matched elements
+ *
+ * @param {String} [val] - value
+ * @return {String|Number|Array|Object} - value | VeamsQuery object
+ */
+VeamsQueryObject.prototype.val = function (val) {
+	var i = 0;
+
+	if (!val) {
+		return this[0].value;
+	}
+
+	for (i; i < this.length; i++) {
+		this[i].value = val;
 	}
 
 	return this;

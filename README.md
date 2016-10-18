@@ -4,7 +4,7 @@ Represents a very simple DOM API for Veams-JS (incl. ajax support)
 
 ## Version
 
-Latest version is ```v1.4.1```
+Latest version is ```v1.5.0```
 
 ## Getting started
 
@@ -215,6 +215,16 @@ Documentation of all functions (Selector, support and DOM)
  */
 ```
 
+#### .offset()
+``` js
+/**
+ *  Get the current coordinates of the first element in the set of matched elements,
+ *  relative to the document
+ *
+ * @return {Object} - offset (offset.top, offset.left)
+ */
+```
+
 #### .html()
 ``` js
 /**
@@ -349,6 +359,25 @@ Documentation of all functions (Selector, support and DOM)
  *
  * @param {String} propName - property name
  * @param {String|Number|Boolean|Object} propVal - property value
+ * @return {Object} - VeamsQuery object
+ */
+```
+
+#### .val()
+``` js
+/**
+ * Get the current value of the first element in the set of matched elements.
+ *
+ * @return {String|Number|Array} - value
+ */
+```
+
+#### .val( val:string )
+``` js
+/**
+ * Set the value of each element in the set of matched elements
+ *
+ * @param {String} val - value
  * @return {Object} - VeamsQuery object
  */
 ```

@@ -1,3 +1,6 @@
+### v1.5.0
+- add functions .val() and .offset()
+
 ### v1.4.1
 - do not call getElementById for element (use document instead)
 
