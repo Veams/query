@@ -1,3 +1,6 @@
+### v1.6.0
+- add function .serialize()
+
 ### v1.5.0
 - add functions .val() and .offset()
 

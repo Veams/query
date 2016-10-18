@@ -4,7 +4,7 @@ Represents a very simple DOM API for Veams-JS (incl. ajax support)
 
 ## Version
 
-Latest version is ```v1.5.0```
+Latest version is ```v1.6.0```
 
 ## Getting started
 
@@ -379,6 +379,15 @@ Documentation of all functions (Selector, support and DOM)
  *
  * @param {String} val - value
  * @return {Object} - VeamsQuery object
+ */
+```
+
+#### .serialize()
+``` js
+/**
+ * Encode a set of form elements as a string for submission.
+ *
+ * @return {String} - serialized form data
  */
 ```
 

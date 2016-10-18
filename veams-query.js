@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v1.5.0
+ * @version v1.6.0
  *
  * @author Andy Gutsche
  */
@@ -23,7 +23,7 @@ var VeamsQuery = function (selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v1.5.0';
+VeamsQuery.version = 'v1.6.0';
 
 /**
  * Return DOM element created from given HTML string
@@ -736,6 +736,45 @@ VeamsQueryObject.prototype.val = function (val) {
 	}
 
 	return this;
+};
+
+
+/**
+ * Encode a set of form elements as a string for submission.
+ *
+ * @return {String} - serialized form data
+ */
+VeamsQueryObject.prototype.serialize = function () {
+	var field = [];
+	var l = [];
+	var s = [];
+
+	if (typeof this[0] === 'object' && this[0].nodeName === 'FORM') {
+		var len = this[0].elements.length;
+
+		for (var i = 0; i < len; i++) {
+			field = this[0].elements[i];
+
+			if (field.name && !field.disabled && field.type !== 'file' && field.type !== 'reset' &&
+					field.type !== 'submit' && field.type !== 'button') {
+
+				if (field.type === 'select-multiple') {
+					l = this[0].elements[i].options.length;
+
+					for (var j = 0; j < l; j++) {
+						if (field.options[j].selected) {
+							s[s.length] =
+									encodeURIComponent(field.name) + '=' + encodeURIComponent(field.options[j].value.trim());
+						}
+					}
+				} else if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
+					s[s.length] = encodeURIComponent(field.name) + '=' + encodeURIComponent(field.value.trim());
+				}
+			}
+		}
+	}
+
+	return s.join('&');
 };
 
 
