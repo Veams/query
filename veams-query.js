@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v1.4.0
+ * @version v1.4.1
  *
  * @author Andy Gutsche
  */
@@ -23,7 +23,7 @@ var VeamsQuery = function (selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v1.4.0';
+VeamsQuery.version = 'v1.4.1';
 
 /**
  * Return DOM element created from given HTML string
@@ -150,7 +150,7 @@ var VeamsQueryObject = function (selector, context) {
 			if (/^(#?[\w-]+|\.[\w-.]+)$/.test(selector)) {
 				switch (selector.charAt(0)) {
 					case '#':
-						queryRes = queryRes.concat([scope[i].getElementById(selector.substr(1))]);
+						queryRes = [document.getElementById(selector.substr(1))];
 						break;
 					case '.':
 						classes = selector.substr(1).replace(/\./g, ' ');

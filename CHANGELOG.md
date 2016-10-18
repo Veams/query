@@ -1,3 +1,6 @@
+### v1.4.1
+- do not call getElementById for element (use document instead)
+
 ### v1.4.0
 - add function .prop()
 
