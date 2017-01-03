@@ -1,11 +1,9 @@
 {
 	"name": "veams",
-	"version": "1.6.0",
+	"version": "1.7.2",
 	"description": "Veams Query",
 	"main": "lib/veams-query.js",
-	"files": [
-		"src/common/component.js"
-	],
+	"files": [],
 	"scripts": {
 		"build": "webpack --mode=build",
 		"dev": "webpack --progress --colors --watch --mode=dev",
