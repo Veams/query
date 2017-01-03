@@ -1,5 +1,5 @@
 {
-	"name": "veams",
+	"name": "veams-query",
 	"version": "1.7.2",
 	"description": "Veams Query",
 	"main": "lib/veams-query.js",
