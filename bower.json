@@ -1,6 +1,6 @@
 {
 	"name": "veams-query",
-	"version": "1.6.0",
+	"version": "1.7.0",
 	"description": "Represents a very simple DOM API for Veams-JS (incl. ajax support)",
 	"main": "veams-query.js",
 	"authors": [

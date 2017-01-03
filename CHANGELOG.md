@@ -1,3 +1,6 @@
+### v1.7.0
+- prepare VeamsQuery for NPM
+
 ### v1.6.0
 - add function .serialize()
 
