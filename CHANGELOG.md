@@ -1,3 +1,6 @@
+### v1.7.1
+- Update version
+
 ### v1.7.0
 - prepare VeamsQuery for NPM
 
