@@ -1,4 +1,5 @@
 <p align='right'>
+    <a href='https://badge.fury.io/js/veams-query'><img src='https://badge.fury.io/js/veams-query.svg' alt='npm version' height='20'></a>
     <a href='https://badge.fury.io/bo/veams-query'><img src='https://badge.fury.io/bo/veams-query.svg' alt='Bower version' height='20'></a>
     <a href='https://gitter.im/Sebastian-Fitzner/Veams?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge'><img src='https://badges.gitter.im/Sebastian-Fitzner/Veams.svg' alt='Gitter Chat' /></a>
 </p>
@@ -11,18 +12,14 @@ Represents a very simple DOM API for Veams-JS (incl. ajax support)
 
 ### Installation
 
+#### npm
+```
+npm install veams-query --save
+```
+
+#### Bower
 ```
 bower install veams-query --save
-```
-
-### Import
-
-Use relative path to your bower components folder
-
-_Example:_
-
-``` js
-import VeamsQuery from '../bower-components/veams-query/lib/veams-query';
 ```
 
 ## Usage
