@@ -1,3 +1,6 @@
+### v1.7.4
+- Rebuild module
+
 ### v1.7.3
 - Update readme
 
