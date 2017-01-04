@@ -1,3 +1,6 @@
+### v1.7.5
+- Update package.json
+
 ### v1.7.4
 - Rebuild module
 

@@ -1,12 +1,11 @@
 {
 	"name": "veams-query",
-	"version": "1.7.4",
+	"version": "1.7.5",
 	"description": "Represents a very simple DOM API for Veams-JS (incl. ajax support)",
 	"main": "lib/veams-query.js",
 	"authors": [
 		"Andy Gutsche"
 	],
-	"files": [],
 	"scripts": {
 		"build": "webpack --mode=build",
 		"dev": "webpack --progress --colors --watch --mode=dev",
