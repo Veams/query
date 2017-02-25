@@ -1,3 +1,6 @@
+### v2.0.0
+- Rewrite module in ES6
+
 ### v1.7.6
 - Rebuild module
 
