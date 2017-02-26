@@ -1,3 +1,6 @@
+### v2.2.0
+- Use 'json' as default dataType in .ajax()
+
 ### v2.1.0
 - Improve event handling in .on(), .off()
 - Enable support for POST-request in .ajax()

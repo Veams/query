@@ -58,7 +58,7 @@ Documentation of all functions (Selector, support and DOM)
  * @param {Object} opts - options
  * @param {String} [opts.type='GET'] - an alias for method
  * @param {String} opts.url - a string containing the URL to which the request is sent
- * @param {String} [opts.dataType='text'] - a string containing the URL to which the request is sent
+ * @param {String} [opts.dataType='json'] - data type of response ('json' || 'html' || 'text')
  * @param {Object|String|Array} [opts.data] - data to be sent to the server
  */
 ```

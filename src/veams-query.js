@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.1.0
+ * @version v2.2.0
  *
  * @author Andy Gutsche
  */
@@ -849,7 +849,7 @@ function VeamsQuery(selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v2.1.0';
+VeamsQuery.version = 'v2.2.0';
 
 
 /**
@@ -874,7 +874,7 @@ VeamsQuery.parseHTML = function (htmlString) {
  * @param {Object} opts - options
  * @param {String} [opts.type='GET'] - an alias for method
  * @param {String} opts.url - a string containing the URL to which the request is sent
- * @param {String} [opts.dataType='text'] - a string containing the URL to which the request is sent
+ * @param {String} [opts.dataType='json'] - data type of response ('json' || 'html' || 'text')
  * @param {Object|String|Array} [opts.data] - data to be sent to the server
  */
 VeamsQuery.ajax = function (opts) {
@@ -884,7 +884,7 @@ VeamsQuery.ajax = function (opts) {
 		let options = {
 			type: opts.type && opts.type.toUpperCase() === 'POST' ? 'POST' : 'GET',
 			url: opts.url,
-			dataType: opts.dataType || 'text',
+			dataType: opts.dataType && opts.dataType.toLowerCase() || 'json'
 		};
 
 		let data = opts.data || {};
@@ -935,11 +935,14 @@ VeamsQuery.ajax = function (opts) {
 		request.onload = () => {
 			if (request.status >= 200 && request.status < 400) {
 
-				if (options.dataType === 'json') {
-					response = JSON.parse(request.responseText);
+				if (options.dataType === 'html') {
+					response = VeamsQuery.parseHTML(request.responseText);
+				}
+				else if (options.dataType === 'text') {
+					response = request.responseText;
 				}
 				else {
-					response = request.responseText;
+					response = JSON.parse(request.responseText);
 				}
 
 				resolve(response);
