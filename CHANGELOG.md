@@ -1,3 +1,10 @@
+### v2.1.0
+- Improve event handling in .on(), .off()
+- Enable support for POST-request in .ajax()
+- Add support for sending data in .ajax()
+- Use promise for .ajax()
+- Bugfixes
+
 ### v2.0.0
 - Rewrite module in ES6
 

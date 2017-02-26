@@ -2,13 +2,15 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.0.0
+ * @version v2.1.0
  *
  * @author Andy Gutsche
  */
 
 
 const classListSupport = 'classList' in document.documentElement;
+
+window.veamsQueryEvents = window.veamsQueryEvents || [];
 
 class VeamsQueryObject {
 
@@ -281,6 +283,7 @@ class VeamsQueryObject {
 		}
 
 		for (i; i < this.length; i++) {
+			new VeamsQueryObject(this[i]).empty();
 			this[i].innerHTML = htmlStr;
 		}
 
@@ -386,6 +389,18 @@ class VeamsQueryObject {
 		let i = 0;
 
 		for (i; i < this.length; i++) {
+			let j = veamsQueryEvents.length - 1;
+
+			for (j; j >= 0; --j) {
+
+				if (veamsQueryEvents[j].node === this[i] ||
+						veamsQueryEvents[j].selector &&
+						new VeamsQueryObject(veamsQueryEvents[j].node).find(veamsQueryEvents[j].selector).length) {
+					this[i].removeEventListener(veamsQueryEvents[j].event, veamsQueryEvents[j].handler);
+					veamsQueryEvents.splice(j, 1);
+				}
+			}
+
 			this[i].parentNode.removeChild(this[i]);
 		}
 
@@ -402,7 +417,19 @@ class VeamsQueryObject {
 		let i = 0;
 
 		for (i; i < this.length; i++) {
+
 			while (this[i].firstChild) {
+				let j = veamsQueryEvents.length - 1;
+
+				for (j; j >= 0; --j) {
+
+					if (veamsQueryEvents[j].node === this[i].firstChild ||
+							veamsQueryEvents[j].node === this[i] && veamsQueryEvents[j].selector) {
+						this[i].removeEventListener(veamsQueryEvents[j].event, veamsQueryEvents[j].handler);
+						veamsQueryEvents.splice(j, 1);
+					}
+				}
+
 				this[i].removeChild(this[i].firstChild);
 			}
 		}
@@ -710,16 +737,16 @@ class VeamsQueryObject {
 	 */
 	on(eventNames, selector, handler) {
 		let i = 0;
-		let j = 0;
 		let events = eventNames.split(' ');
 		let evtHandler = typeof selector === 'function' ? selector : handler;
 		let delegateTarget;
 
 		for (i; i < this.length; i++) {
 
-			for (j; j < events.length; j++) {
+			for (let j = 0; j < events.length; j++) {
+				let [event, namespace] = events[j].split('.');
 
-				this[i].addEventListener(events[j], function (e) {
+				let handler = (e) => {
 
 					if (typeof selector === 'string') {
 						delegateTarget = VeamsQuery(e.target).closest(selector);
@@ -731,6 +758,16 @@ class VeamsQueryObject {
 					else {
 						evtHandler(e, e.currentTarget);
 					}
+				};
+
+				this[i].addEventListener(event, handler);
+
+				veamsQueryEvents.push({
+					node: this[i],
+					event: event,
+					namespace: namespace,
+					handler: handler,
+					selector: typeof selector === 'string' ? selector : undefined
 				});
 			}
 		}
@@ -743,18 +780,27 @@ class VeamsQueryObject {
 	 * Detach an event handler for one or more events from the selected elements
 	 *
 	 * @param {String} eventNames - name(s) of event(s) to be unregistered for matched set of elements
-	 * @param {Function} handler - event handler function
+	 * @param {String} [selector] - selector string to filter descendants of selected elements triggering the event
 	 * @return {Object} - VeamsQuery object
 	 */
-	off(eventNames, handler) {
+	off(eventNames, selector) {
 		let i = 0;
-		let j = 0;
 		let events = eventNames.split(' ');
 
 		for (i; i < this.length; i++) {
 
-			for (j; j < events.length; j++) {
-				this[i].removeEventListener(events[j], handler);
+			for (let j = 0; j < events.length; j++) {
+				let [event, namespace] = events[j].split('.');
+				let k = veamsQueryEvents.length - 1;
+
+				for (k; k >= 0; --k) {
+
+					if (veamsQueryEvents[k].node === this[i] && veamsQueryEvents[k].event === event &&
+							veamsQueryEvents[k].namespace === namespace && veamsQueryEvents[k].selector === selector) {
+						this[i].removeEventListener(event, veamsQueryEvents[k].handler);
+						veamsQueryEvents.splice(k, 1);
+					}
+				}
 			}
 		}
 
@@ -771,12 +817,11 @@ class VeamsQueryObject {
 	 */
 	trigger(eventNames, customData) {
 		let i = 0;
-		let j = 0;
 		let events = eventNames.split(' ');
 
 		for (i; i < this.length; i++) {
 
-			for (j; j < events.length; j++) {
+			for (let j = 0; j < events.length; j++) {
 
 				if (typeof this[i][events[j]] === 'function') {
 					this[i][events[j]]();
@@ -804,7 +849,7 @@ function VeamsQuery(selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v2.0.0';
+VeamsQuery.version = 'v2.1.0';
 
 
 /**
@@ -830,46 +875,92 @@ VeamsQuery.parseHTML = function (htmlString) {
  * @param {String} [opts.type='GET'] - an alias for method
  * @param {String} opts.url - a string containing the URL to which the request is sent
  * @param {String} [opts.dataType='text'] - a string containing the URL to which the request is sent
- * @param {Function} [opts.success] - success callback
- * @param {Function} [opts.error] - error callback
+ * @param {Object|String|Array} [opts.data] - data to be sent to the server
  */
 VeamsQuery.ajax = function (opts) {
-	let request;
-	let response;
-	let options = {
-		type: opts.type || 'GET',
-		url: opts.url,
-		dataType: opts.dataType || 'text',
-		success: opts.success || function () {
-		},
-		error: opts.error || function () {
+	return new Promise((resolve, reject) => {
+
+		// set options
+		let options = {
+			type: opts.type && opts.type.toUpperCase() === 'POST' ? 'POST' : 'GET',
+			url: opts.url,
+			dataType: opts.dataType || 'text',
+		};
+
+		let data = opts.data || {};
+		let requestData = null;
+		let concatChar = options.url.indexOf('?') > -1 ? '&' : '?';
+		let parts = [];
+		let request;
+		let response;
+		let url;
+
+		// check for url
+		if (!options.url) {
+			let error = new Error('Request url not set');
+
+			error.name = 'ajaxError ';
+			reject(error);
+
+			return;
 		}
-	};
 
-	request = new XMLHttpRequest();
-	request.open(options.type, options.url, true);
-
-	request.onload = () => {
-		if (request.status >= 200 && request.status < 400) {
-
-			if (options.dataType === 'json') {
-				response = JSON.parse(request.responseText);
+		// convert request data into query string
+		for (let i in data) {
+			if (data.hasOwnProperty(i)) {
+				parts.push(encodeURIComponent(i) + "=" + encodeURIComponent(data[i]));
 			}
-			else {
-				response = request.responseText;
-			}
-
-			options.success(response);
-		} else {
-			options.error(request.status, request.statusText)
 		}
-	};
 
-	request.onerror = (e) => {
-		options.error(e.target.status);
-	};
+		let params = parts.join('&');
 
-	request.send();
+		// decide how data will be sent (depends on type)
+		if (options.type === 'GET') {
+			url = options.url + concatChar + params;
+		}
+		else if (options.type === 'POST') {
+			url = options.url;
+			requestData = params;
+		}
+
+		request = new XMLHttpRequest();
+		request.open(options.type, url, true);
+
+		// set content type for post request
+		if (options.type === 'POST') {
+			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		}
+
+		// load handler
+		request.onload = () => {
+			if (request.status >= 200 && request.status < 400) {
+
+				if (options.dataType === 'json') {
+					response = JSON.parse(request.responseText);
+				}
+				else {
+					response = request.responseText;
+				}
+
+				resolve(response);
+			} else {
+				let error = new Error(request.status + ' - ' + request.statusText);
+
+				error.name = 'ajaxError ';
+				reject(error);
+			}
+		};
+
+		// error handler
+		request.onerror = (e) => {
+			let error = new Error(e.target.status + ' - ' + e.target.statusText);
+
+			error.name = 'ajaxError ';
+			reject(error);
+		};
+
+		request.send(requestData);
+	});
 };
 
 export default VeamsQuery;

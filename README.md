@@ -59,8 +59,7 @@ Documentation of all functions (Selector, support and DOM)
  * @param {String} [opts.type='GET'] - an alias for method
  * @param {String} opts.url - a string containing the URL to which the request is sent
  * @param {String} [opts.dataType='text'] - a string containing the URL to which the request is sent
- * @param {Function} [opts.success] - success callback
- * @param {Function} [opts.error] - error callback
+ * @param {Object|String|Array} [opts.data] - data to be sent to the server
  */
 ```
 
@@ -392,7 +391,7 @@ Documentation of all functions (Selector, support and DOM)
 #### .on( eventNames:string[, selector:string] ,handler:function)
 ``` js
 /**
- * Attach an event handler function for one or more events to the selected elements
+ * Attach an event handler function for one or more event types to the selected elements
  *
  * @param {String} eventNames - name(s) of event(s) to be registered for matched set of elements
  * @param {String} [selector] - selector string to filter descendants of selected elements triggering the event
@@ -401,18 +400,18 @@ Documentation of all functions (Selector, support and DOM)
  */
 ```
 
-#### .off( eventNames:string, handler:function)
+#### .off( eventNames:string[, selector:string])
 ``` js
 /**
- * Detach an event handler for one or more events from the selected elements
+ * Detach all event handlers for one or more event types from the selected elements
  *
  * @param {String} eventNames - name(s) of event(s) to be unregistered for matched set of elements
- * @param {Function} handler - event handler function
+ * @param {String} [selector] - selector string to filter descendants of selected elements triggering the event
  * @return {Object} - VeamsQuery object
  */
 ```
 
-#### .trigger( eventNames:string [, customData:object])
+#### .trigger( eventNames:string[, customData:object])
 ``` js
 /**
  * Execute all handlers and behaviors attached to the matched elements for the given event type
