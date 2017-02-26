@@ -2,11 +2,16 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.2.0
+ * @version v2.2.1
+ *
+ * Polyfills: npm install promise-polyfill --save-exact
  *
  * @author Andy Gutsche
  */
 
+if (!window.Promise) {
+	console.error('VeamsQuery :: You should add a lightweight promise library like promise-polyfill!');
+}
 
 const classListSupport = 'classList' in document.documentElement;
 
@@ -87,7 +92,7 @@ class VeamsQueryObject {
 					queryRes = queryRes.concat([].slice.call(scope[i].querySelectorAll(selector)));
 				}
 			} catch (e) {
-				console.warn('VeamsQuery says: "', e, '"');
+				console.warn('VeamsQuery :: "', e, '"');
 			}
 		}
 
@@ -849,7 +854,7 @@ function VeamsQuery(selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v2.2.0';
+VeamsQuery.version = 'v2.2.1';
 
 
 /**

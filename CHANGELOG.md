@@ -1,3 +1,6 @@
+### v2.2.1
+- Show error message if browser doesn't support 'Promise'
+
 ### v2.2.0
 - Use 'json' as default dataType in .ajax()
 
