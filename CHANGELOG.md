@@ -1,3 +1,6 @@
+### v2.2.2
+- Add support for notification of listeners in capturing phase in .on()
+
 ### v2.2.1
 - Show error message if browser doesn't support 'Promise'
 

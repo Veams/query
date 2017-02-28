@@ -388,14 +388,15 @@ Documentation of all functions (Selector, support and DOM)
  */
 ```
 
-#### .on( eventNames:string[, selector:string] ,handler:function)
+#### .on( eventNames:string[, selector:string] ,handler:function[, useCapture:boolean])
 ``` js
 /**
- * Attach an event handler function for one or more event types to the selected elements
+ * Attach an event handler function for one or more events to the selected elements
  *
  * @param {String} eventNames - name(s) of event(s) to be registered for matched set of elements
  * @param {String} [selector] - selector string to filter descendants of selected elements triggering the event
  * @param {Function} handler - event handler function
+ * @param {Boolean} [useCapture] - dispatch event to registered listeners before dispatching it to event target
  * @return {Object} - VeamsQuery object
  */
 ```

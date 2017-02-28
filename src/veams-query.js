@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.2.1
+ * @version v2.2.2
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -738,13 +738,28 @@ class VeamsQueryObject {
 	 * @param {String} eventNames - name(s) of event(s) to be registered for matched set of elements
 	 * @param {String} [selector] - selector string to filter descendants of selected elements triggering the event
 	 * @param {Function} handler - event handler function
+	 * @param {Boolean} [useCapture] - dispatch event to registered listeners before dispatching it to event target
 	 * @return {Object} - VeamsQuery object
 	 */
-	on(eventNames, selector, handler) {
+	on(eventNames, selector, handler, useCapture) {
 		let i = 0;
-		let events = eventNames.split(' ');
-		let evtHandler = typeof selector === 'function' ? selector : handler;
+		let events = typeof eventNames === 'string' && eventNames.split(' ');
+		let targetSelector = typeof selector === 'string' ? selector : undefined;
+		let evtHandler = typeof selector === 'function' ? selector : typeof handler === 'function' ? handler : undefined;
+		let capture = typeof handler === 'boolean' ? handler : typeof useCapture === 'boolean' ? useCapture : false;
 		let delegateTarget;
+
+		if (!events) {
+			console.error('VeamsQuery :: on() - Event name not specified');
+
+			return this;
+		}
+
+		if (!evtHandler) {
+			console.error('VeamsQuery :: on() - Event handler not specified');
+
+			return this;
+		}
 
 		for (i; i < this.length; i++) {
 
@@ -753,8 +768,8 @@ class VeamsQueryObject {
 
 				let handler = (e) => {
 
-					if (typeof selector === 'string') {
-						delegateTarget = VeamsQuery(e.target).closest(selector);
+					if (targetSelector) {
+						delegateTarget = VeamsQuery(e.target).closest(targetSelector);
 
 						if (delegateTarget && delegateTarget.length) {
 							evtHandler(e, delegateTarget[0]);
@@ -765,14 +780,14 @@ class VeamsQueryObject {
 					}
 				};
 
-				this[i].addEventListener(event, handler);
+				this[i].addEventListener(event, handler, capture);
 
 				veamsQueryEvents.push({
 					node: this[i],
 					event: event,
 					namespace: namespace,
 					handler: handler,
-					selector: typeof selector === 'string' ? selector : undefined
+					selector: targetSelector
 				});
 			}
 		}
@@ -854,7 +869,7 @@ function VeamsQuery(selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v2.2.1';
+VeamsQuery.version = 'v2.2.2';
 
 
 /**
