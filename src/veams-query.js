@@ -808,8 +808,8 @@ class VeamsQueryObject {
 		let i = 0;
 		let events = eventNames.split(' ');
 
-		selector = typeof selector === 'string' ? selector : undefined;
-		handler = typeof selector === 'function' ? selector : handler;
+		let targetSelector = typeof selector === 'string' ? selector : undefined;
+		let evtHandler = typeof selector === 'function' ? selector : typeof handler === 'function' ? handler : undefined;
 
 		for (i; i < this.length; i++) {
 
@@ -821,11 +821,11 @@ class VeamsQueryObject {
 					let unbindEvt = false;
 
 					if (veamsQueryEvents[k].node === this[i] && veamsQueryEvents[k].event === event &&
-							veamsQueryEvents[k].namespace === namespace && veamsQueryEvents[k].selector === selector) {
+							veamsQueryEvents[k].namespace === namespace && veamsQueryEvents[k].selector === targetSelector) {
 
-						if (handler) {
+						if (evtHandler) {
 
-							if (veamsQueryEvents[k].handler === handler) {
+							if (veamsQueryEvents[k].handler === evtHandler) {
 								unbindEvt = true;
 							}
 
