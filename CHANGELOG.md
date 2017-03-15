@@ -1,3 +1,6 @@
+### v2.2.3
+- Fix issue with unbinding specific handler in .off()
+
 ### v2.2.2
 - Add support for notification of listeners in capturing phase in .on()
 

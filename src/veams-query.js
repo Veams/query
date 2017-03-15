@@ -801,11 +801,15 @@ class VeamsQueryObject {
 	 *
 	 * @param {String} eventNames - name(s) of event(s) to be unregistered for matched set of elements
 	 * @param {String} [selector] - selector string to filter descendants of selected elements triggering the event
+	 * @param {Function} [handler] - event handler
 	 * @return {Object} - VeamsQuery object
 	 */
-	off(eventNames, selector) {
+	off(eventNames, selector, handler) {
 		let i = 0;
 		let events = eventNames.split(' ');
+
+		selector = typeof selector === 'string' ? selector : undefined;
+		handler = typeof selector === 'function' ? selector : handler;
 
 		for (i; i < this.length; i++) {
 
@@ -814,11 +818,26 @@ class VeamsQueryObject {
 				let k = veamsQueryEvents.length - 1;
 
 				for (k; k >= 0; --k) {
+					let unbindEvt = false;
 
 					if (veamsQueryEvents[k].node === this[i] && veamsQueryEvents[k].event === event &&
 							veamsQueryEvents[k].namespace === namespace && veamsQueryEvents[k].selector === selector) {
-						this[i].removeEventListener(event, veamsQueryEvents[k].handler);
-						veamsQueryEvents.splice(k, 1);
+
+						if (handler) {
+
+							if (veamsQueryEvents[k].handler === handler) {
+								unbindEvt = true;
+							}
+
+						}
+						else {
+							unbindEvt = true;
+						}
+
+						if (unbindEvt) {
+							this[i].removeEventListener(event, veamsQueryEvents[k].handler);
+							veamsQueryEvents.splice(k, 1);
+						}
 					}
 				}
 			}
@@ -869,7 +888,7 @@ function VeamsQuery(selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v2.2.2';
+VeamsQuery.version = 'v2.2.3';
 
 
 /**

@@ -408,6 +408,7 @@ Documentation of all functions (Selector, support and DOM)
  *
  * @param {String} eventNames - name(s) of event(s) to be unregistered for matched set of elements
  * @param {String} [selector] - selector string to filter descendants of selected elements triggering the event
+ * @param {Function} [handler] - event handler
  * @return {Object} - VeamsQuery object
  */
 ```
