@@ -1,3 +1,6 @@
+### v2.2.4
+- Repack
+
 ### v2.2.3
 - Fix issue with unbinding specific handler in .off()
 
