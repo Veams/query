@@ -1,3 +1,6 @@
+### v2.2.5
+- Use computed style for .css() instead of just checking style props
+
 ### v2.2.4
 - Repack
 

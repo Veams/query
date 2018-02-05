@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.2.4
+ * @version v2.2.5
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -541,7 +541,7 @@ class VeamsQueryObject {
 		if (typeof cssProp === 'string') {
 
 			if (typeof cssVal === 'undefined') {
-				return this[0].style[cssProp];
+				return window.getComputedStyle(this[0])[cssProp];
 			}
 			else {
 
