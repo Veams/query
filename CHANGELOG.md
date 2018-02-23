@@ -1,3 +1,6 @@
+### v2.2.6
+- Fix event binding/unbinding issue in .on() and .off()
+
 ### v2.2.5
 - Use computed style for .css() instead of just checking style props
 

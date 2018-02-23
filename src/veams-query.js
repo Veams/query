@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.2.5
+ * @version v2.2.6
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -766,7 +766,7 @@ class VeamsQueryObject {
 			for (let j = 0; j < events.length; j++) {
 				let [event, namespace] = events[j].split('.');
 
-				let handler = (e) => {
+				let internalHandler = (e) => {
 
 					if (targetSelector) {
 						delegateTarget = VeamsQuery(e.target).closest(targetSelector);
@@ -780,14 +780,15 @@ class VeamsQueryObject {
 					}
 				};
 
-				this[i].addEventListener(event, handler, capture);
+				this[i].addEventListener(event, internalHandler, capture);
 
 				veamsQueryEvents.push({
 					node: this[i],
 					event: event,
+					selector: targetSelector,
 					namespace: namespace,
-					handler: handler,
-					selector: targetSelector
+					internalHandler: internalHandler,
+					externalHandler: evtHandler
 				});
 			}
 		}
@@ -825,7 +826,7 @@ class VeamsQueryObject {
 
 						if (evtHandler) {
 
-							if (veamsQueryEvents[k].handler === evtHandler) {
+							if (veamsQueryEvents[k].externalHandler === evtHandler) {
 								unbindEvt = true;
 							}
 
@@ -835,7 +836,7 @@ class VeamsQueryObject {
 						}
 
 						if (unbindEvt) {
-							this[i].removeEventListener(event, veamsQueryEvents[k].handler);
+							this[i].removeEventListener(event, veamsQueryEvents[k].internalHandler);
 							veamsQueryEvents.splice(k, 1);
 						}
 					}
@@ -888,7 +889,7 @@ function VeamsQuery(selector, context) {
 
 
 // VeamsQuery version
-VeamsQuery.version = 'v2.2.4';
+VeamsQuery.version = 'v2.2.6';
 
 
 /**

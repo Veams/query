@@ -1,6 +1,6 @@
 {
 	"name": "veams-query",
-	"version": "2.2.5",
+	"version": "2.2.6",
 	"description": "Represents a very simple DOM API for Veams-JS (incl. ajax support)",
 	"main": "lib/veams-query.js",
 	"browserify": {
