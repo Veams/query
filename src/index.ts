@@ -9,15 +9,15 @@
  * @author Andy Gutsche
  */
 
-if (!window.Promise) {
+if (!window['Promise']) {
 	console.error('VeamsQuery :: You should add a lightweight promise library like promise-polyfill!');
 }
 
 const classListSupport = 'classList' in document.documentElement;
+const veamsQueryEvents = window['veamsQueryEvents'] = window['veamsQueryEvents'] || [];
 
-window.veamsQueryEvents = window.veamsQueryEvents || [];
-
-class VeamsQueryObject {
+export class VeamsQueryObject {
+	length: number;
 
 	/**
 	 * VeamsQuery DOM wrapper object
@@ -25,7 +25,7 @@ class VeamsQueryObject {
 	 * @param {String | Object} selector - selector (string, VeamsQuery object, element)
 	 * @param {Object} [context] - context (VeamsQuery object, element)
 	 */
-	constructor(selector, context) {
+	constructor(selector, context = null) {
 		let classes;
 		let scope;
 		let queryRes = [];
@@ -660,8 +660,8 @@ class VeamsQueryObject {
 	 * @return {String} - serialized form data
 	 */
 	serialize() {
-		let field = [];
-		let l = [];
+		let field = null;
+		let l = null;
 		let s = [];
 
 		if (typeof this[0] === 'object' && this[0].nodeName === 'FORM') {
@@ -836,17 +836,26 @@ class VeamsQueryObject {
 }
 
 /**
+ * VeamsQuery Interface
+ */
+export interface IVeamsQuery {
+	(selector?: object, context?: any): any;
+	version: string,
+	parseHTML: any,
+	ajax: any
+}
+
+/**
  * VeamsQuery selector function
  *
  * @param {String | Object} selector - selector (string, VeamsQuery object, element)
  * @param {Object} [context] - context (VeamsQuery object, element)
  */
-function VeamsQuery(selector, context) {
+const VeamsQuery = <IVeamsQuery>function(selector = {}, context = null) {
 	return new VeamsQueryObject(selector, context);
-}
+};
 
-// VeamsQuery version
-VeamsQuery.version = 'v2.2.7';
+VeamsQuery.version = 'v2.2.8';
 
 /**
  * Return DOM element created from given HTML string

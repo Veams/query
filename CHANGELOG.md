@@ -1,3 +1,6 @@
+### v2.2.8
+- Convert in TypeScript
+
 ### v2.2.7
 - Repack
 
