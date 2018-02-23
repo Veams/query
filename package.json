@@ -32,7 +32,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/veams/veams-query.git"
+		"url": "https://github.com/veams/query.git"
 	},
 	"keywords": [
 		"veams-generator",
@@ -42,7 +42,7 @@
 		"veams",
 		"mangony"
 	],
-	"homepage": "https://github.com/Veams/veams-query",
+	"homepage": "https://github.com/Veams/query",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/veams/veams-query/issues"
