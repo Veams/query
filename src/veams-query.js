@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.2.6
+ * @version v2.2.7
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -62,13 +62,11 @@ class VeamsQueryObject {
 
 			// context is element
 			if (context.nodeType) {
-				scope = [context]
-			}
-			else if (context[0] && context[0].nodeType) { // context is VeamsQuery object
+				scope = [context];
+			} else if (context[0] && context[0].nodeType) { // context is VeamsQuery object
 				scope = context;
 			}
-		}
-		else {
+		} else {
 			scope = [document];
 		}
 
@@ -87,8 +85,7 @@ class VeamsQueryObject {
 						default:
 							queryRes = queryRes.concat([].slice.call(scope[i].getElementsByTagName(selector)));
 					}
-				}
-				else {
+				} else {
 					queryRes = queryRes.concat([].slice.call(scope[i].querySelectorAll(selector)));
 				}
 			} catch (e) {
@@ -103,7 +100,6 @@ class VeamsQueryObject {
 		this.length = queryRes.length;
 	}
 
-
 	/**
 	 * Get the descendants of each element in the current set of matched elements, filtered by a selector,
 	 * VeamsQuery object, or element
@@ -114,7 +110,6 @@ class VeamsQueryObject {
 	find(selector) {
 		return new VeamsQueryObject(selector, this);
 	}
-
 
 	/**
 	 * For each element in the set, get the first element that matches the selector by testing
@@ -158,7 +153,6 @@ class VeamsQueryObject {
 		return returnObj;
 	}
 
-
 	/**
 	 * Check if element has given class
 	 *
@@ -166,13 +160,13 @@ class VeamsQueryObject {
 	 * @return {Boolean} - element has class (true/false)
 	 */
 	hasClass(className) {
+
 		if (classListSupport) {
 			return this[0].classList.contains(className);
-		} else {
-			return new RegExp("(^|\\s+)" + className + "(\\s+|$)").test(this[0].className);
 		}
-	}
 
+		return new RegExp('(^|\\s+)' + className + '(\\s+|$)').test(this[0].className);
+	}
 
 	/**
 	 * Check the current matched set of elements against a selector, element, or VeamsQuery object and return true if
@@ -198,7 +192,6 @@ class VeamsQueryObject {
 
 		return false;
 	}
-
 
 	/**
 	 * Add the specified class(es) to each element in the set of matched elements.
@@ -233,7 +226,6 @@ class VeamsQueryObject {
 		return this;
 	}
 
-
 	/**
 	 * Remove a single class, multiple classes, or all classes from each element in the set of matched elements
 	 *
@@ -248,17 +240,15 @@ class VeamsQueryObject {
 
 			if (!classes) {
 				this[i].removeAttribute('class');
-			}
-			else {
+			} else {
 
 				for (let j = 0; j < classes.length; j++) {
 
 					if ('classList' in document.documentElement) {
 						this[i].classList.remove(classes[j]);
-					}
-					else {
+					} else {
 						this[i].className =
-								this[i].className.replace(new RegExp("(^|\\s+)" + classes[j] + "(\\s+|$)"), ' ');
+								this[i].className.replace(new RegExp('(^|\\s+)' + classes[j] + '(\\s+|$)'), ' ');
 					}
 
 					if (!this[i].className.length) {
@@ -271,7 +261,6 @@ class VeamsQueryObject {
 
 		return this;
 	}
-
 
 	/**
 	 * Get the HTML contents of the first element in the set of matched elements
@@ -295,7 +284,6 @@ class VeamsQueryObject {
 		return this;
 	}
 
-
 	/**
 	 * Insert content, specified by the parameter, to the end of each element in the set of matched elements
 	 *
@@ -308,15 +296,13 @@ class VeamsQueryObject {
 		for (i; i < this.length; i++) {
 			if (typeof element === 'string') {
 				this[i].insertAdjacentHTML('beforeend', element);
-			}
-			else {
+			} else {
 				this[i].appendChild(element && element[0] || element);
 			}
 		}
 
 		return this;
 	}
-
 
 	/**
 	 * Insert content, specified by the parameter, to the beginning of each element in the set of matched elements
@@ -330,15 +316,13 @@ class VeamsQueryObject {
 		for (i; i < this.length; i++) {
 			if (typeof element === 'string') {
 				this[i].insertAdjacentHTML('afterbegin', element);
-			}
-			else {
+			} else {
 				this[i].insertBefore(element && element[0] || element, this[i].firstChild);
 			}
 		}
 
 		return this;
 	}
-
 
 	/**
 	 * Insert content, specified by the parameter, before each element in the set of matched elements
@@ -352,15 +336,13 @@ class VeamsQueryObject {
 		for (i; i < this.length; i++) {
 			if (typeof element === 'string') {
 				this[i].insertAdjacentHTML('beforebegin', element);
-			}
-			else {
+			} else {
 				this[i].parentNode.insertBefore(element && element[0] || element, this[i]);
 			}
 		}
 
 		return this;
 	}
-
 
 	/**
 	 * Insert content, specified by the parameter, after each element in the set of matched elements
@@ -374,8 +356,7 @@ class VeamsQueryObject {
 		for (i; i < this.length; i++) {
 			if (typeof element === 'string') {
 				this[i].insertAdjacentHTML('afterend', element);
-			}
-			else {
+			} else {
 				this[i].parentNode.insertBefore(element && element[0] || element,
 						this[i].nextElementSibling);
 			}
@@ -383,7 +364,6 @@ class VeamsQueryObject {
 
 		return this;
 	}
-
 
 	/**
 	 * Remove the set of matched elements from the DOM
@@ -411,7 +391,6 @@ class VeamsQueryObject {
 
 		return this;
 	}
-
 
 	/**
 	 * Remove all child nodes of the set of matched elements from the DOM
@@ -442,7 +421,6 @@ class VeamsQueryObject {
 		return this;
 	}
 
-
 	/**
 	 * Reduce the set of matched elements to the one at the specified index
 	 *
@@ -452,7 +430,6 @@ class VeamsQueryObject {
 	eq(index) {
 		return new VeamsQueryObject(this[index]);
 	}
-
 
 	/**
 	 * Get the value of an attribute for the first element in the set of matched elements
@@ -476,7 +453,6 @@ class VeamsQueryObject {
 		return this;
 	}
 
-
 	/**
 	 * Remove an attribute from each element in the set of matched elements
 	 *
@@ -497,7 +473,6 @@ class VeamsQueryObject {
 		return this;
 	}
 
-
 	/**
 	 * Get the combined text contents of each element in the set of matched elements.
 	 * Set the content of each element in the set of matched elements to the specified text
@@ -513,8 +488,7 @@ class VeamsQueryObject {
 
 			if (!text) {
 				combinedText += this[i].innerText;
-			}
-			else {
+			} else {
 				this[i].innerText = text;
 			}
 		}
@@ -525,7 +499,6 @@ class VeamsQueryObject {
 
 		return this;
 	}
-
 
 	/**
 	 * Get the computed style properties for the first element in the set of matched elements.
@@ -543,14 +516,11 @@ class VeamsQueryObject {
 			if (typeof cssVal === 'undefined') {
 				return window.getComputedStyle(this[0])[cssProp];
 			}
-			else {
 
-				for (i; i < this.length; i++) {
-					this[i].style[cssProp] = cssVal;
-				}
+			for (i; i < this.length; i++) {
+				this[i].style[cssProp] = cssVal;
 			}
-		}
-		else if (typeof cssProp === 'object') {
+		} else if (typeof cssProp === 'object') {
 
 			for (i; i < this.length; i++) {
 				for (let prop in cssProp) {
@@ -563,7 +533,6 @@ class VeamsQueryObject {
 
 		return this;
 	}
-
 
 	/**
 	 *  Get the current computed height for the first element in the set of matched elements, including padding,
@@ -581,11 +550,10 @@ class VeamsQueryObject {
 		}
 
 		style = getComputedStyle(this[0]);
-		height += parseInt(style.marginTop) + parseInt(style.marginBottom);
+		height += parseInt(style.marginTop, 10) + parseInt(style.marginBottom, 10);
 
 		return height;
 	}
-
 
 	/**
 	 * Get the current computed width for the first element in the set of matched elements, including padding,
@@ -603,11 +571,10 @@ class VeamsQueryObject {
 		}
 
 		style = getComputedStyle(this[0]);
-		width += parseInt(style.marginLeft) + parseInt(style.marginRight);
+		width += parseInt(style.marginLeft, 10) + parseInt(style.marginRight, 10);
 
 		return width;
 	}
-
 
 	/**
 	 *  Get the current coordinates of the first element in the set of matched elements,
@@ -624,7 +591,6 @@ class VeamsQueryObject {
 		};
 	}
 
-
 	/**
 	 * Create a deep copy of the first element in the set of matched elements (without data and events)
 	 *
@@ -635,7 +601,6 @@ class VeamsQueryObject {
 		return new VeamsQueryObject(this[0].cloneNode(withChildren));
 	}
 
-
 	/**
 	 * Return an integer indicating the position of the first element in the set of matched elements relative
 	 * to its sibling elements
@@ -645,7 +610,6 @@ class VeamsQueryObject {
 	index() {
 		return [].slice.call(this[0].parentNode.children).indexOf(this[0]);
 	}
-
 
 	/**
 	 * Get the value of a property for the first element in the set of matched elements
@@ -669,7 +633,6 @@ class VeamsQueryObject {
 		return this;
 	}
 
-
 	/**
 	 * Get the current value of the first element in the set of matched elements.
 	 * Set the value of each element in the set of matched elements
@@ -690,7 +653,6 @@ class VeamsQueryObject {
 
 		return this;
 	}
-
 
 	/**
 	 * Encode a set of form elements as a string for submission.
@@ -731,7 +693,6 @@ class VeamsQueryObject {
 		return s.join('&');
 	}
 
-
 	/**
 	 * Attach an event handler function for one or more events to the selected elements
 	 *
@@ -745,7 +706,8 @@ class VeamsQueryObject {
 		let i = 0;
 		let events = typeof eventNames === 'string' && eventNames.split(' ');
 		let targetSelector = typeof selector === 'string' ? selector : undefined;
-		let evtHandler = typeof selector === 'function' ? selector : typeof handler === 'function' ? handler : undefined;
+		let evtHandler = typeof selector === 'function' ? selector :
+				typeof handler === 'function' ? handler : undefined;
 		let capture = typeof handler === 'boolean' ? handler : typeof useCapture === 'boolean' ? useCapture : false;
 		let delegateTarget;
 
@@ -774,8 +736,7 @@ class VeamsQueryObject {
 						if (delegateTarget && delegateTarget.length) {
 							evtHandler(e, delegateTarget[0]);
 						}
-					}
-					else {
+					} else {
 						evtHandler(e, e.currentTarget);
 					}
 				};
@@ -796,7 +757,6 @@ class VeamsQueryObject {
 		return this;
 	}
 
-
 	/**
 	 * Detach an event handler for one or more events from the selected elements
 	 *
@@ -810,7 +770,8 @@ class VeamsQueryObject {
 		let events = eventNames.split(' ');
 
 		let targetSelector = typeof selector === 'string' ? selector : undefined;
-		let evtHandler = typeof selector === 'function' ? selector : typeof handler === 'function' ? handler : undefined;
+		let evtHandler = typeof selector === 'function' ? selector :
+				typeof handler === 'function' ? handler : undefined;
 
 		for (i; i < this.length; i++) {
 
@@ -822,7 +783,8 @@ class VeamsQueryObject {
 					let unbindEvt = false;
 
 					if (veamsQueryEvents[k].node === this[i] && veamsQueryEvents[k].event === event &&
-							veamsQueryEvents[k].namespace === namespace && veamsQueryEvents[k].selector === targetSelector) {
+							veamsQueryEvents[k].namespace === namespace &&
+							veamsQueryEvents[k].selector === targetSelector) {
 
 						if (evtHandler) {
 
@@ -830,8 +792,7 @@ class VeamsQueryObject {
 								unbindEvt = true;
 							}
 
-						}
-						else {
+						} else {
 							unbindEvt = true;
 						}
 
@@ -846,7 +807,6 @@ class VeamsQueryObject {
 
 		return this;
 	}
-
 
 	/**
 	 * Execute all handlers and behaviors attached to the matched elements for the given event type
@@ -865,8 +825,7 @@ class VeamsQueryObject {
 
 				if (typeof this[i][events[j]] === 'function') {
 					this[i][events[j]]();
-				}
-				else {
+				} else {
 					this[i].dispatchEvent(new CustomEvent(events[j], {detail: customData}));
 				}
 			}
@@ -875,7 +834,6 @@ class VeamsQueryObject {
 		return this;
 	}
 }
-
 
 /**
  * VeamsQuery selector function
@@ -887,10 +845,8 @@ function VeamsQuery(selector, context) {
 	return new VeamsQueryObject(selector, context);
 }
 
-
 // VeamsQuery version
-VeamsQuery.version = 'v2.2.6';
-
+VeamsQuery.version = 'v2.2.7';
 
 /**
  * Return DOM element created from given HTML string
@@ -906,7 +862,6 @@ VeamsQuery.parseHTML = function (htmlString) {
 	// return element
 	return DOM.body.childNodes[0];
 };
-
 
 /**
  * Send XMLHttpRequest
@@ -948,7 +903,7 @@ VeamsQuery.ajax = function (opts) {
 		// convert request data into query string
 		for (let i in data) {
 			if (data.hasOwnProperty(i)) {
-				parts.push(encodeURIComponent(i) + "=" + encodeURIComponent(data[i]));
+				parts.push(encodeURIComponent(i) + '=' + encodeURIComponent(data[i]));
 			}
 		}
 
@@ -957,8 +912,7 @@ VeamsQuery.ajax = function (opts) {
 		// decide how data will be sent (depends on type)
 		if (options.type === 'GET') {
 			url = options.url + concatChar + params;
-		}
-		else if (options.type === 'POST') {
+		} else if (options.type === 'POST') {
 			url = options.url;
 			requestData = params;
 		}
@@ -968,7 +922,7 @@ VeamsQuery.ajax = function (opts) {
 
 		// set content type for post request
 		if (options.type === 'POST') {
-			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 		}
 
 		// load handler
@@ -977,11 +931,9 @@ VeamsQuery.ajax = function (opts) {
 
 				if (options.dataType === 'html') {
 					response = VeamsQuery.parseHTML(request.responseText);
-				}
-				else if (options.dataType === 'text') {
+				} else if (options.dataType === 'text') {
 					response = request.responseText;
-				}
-				else {
+				} else {
 					response = JSON.parse(request.responseText);
 				}
 

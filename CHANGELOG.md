@@ -1,3 +1,6 @@
+### v2.2.7
+- Repack
+
 ### v2.2.6
 - Fix event binding/unbinding issue in .on() and .off()
 
