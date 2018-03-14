@@ -1,3 +1,6 @@
+### v2.2.9
+- Add option for content type + send correct request data in POST
+
 ### v2.2.8
 - Convert in TypeScript
 

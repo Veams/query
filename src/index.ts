@@ -855,7 +855,7 @@ const VeamsQuery = <IVeamsQuery>function(selector = {}, context = null) {
 	return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v2.2.8';
+VeamsQuery.version = 'v2.2.9';
 
 /**
  * Return DOM element created from given HTML string
@@ -888,7 +888,8 @@ VeamsQuery.ajax = function (opts) {
 		let options = {
 			type: opts.type && opts.type.toUpperCase() === 'POST' ? 'POST' : 'GET',
 			url: opts.url,
-			dataType: opts.dataType && opts.dataType.toLowerCase() || 'json'
+			dataType: opts.dataType && opts.dataType.toLowerCase() || 'json',
+			contentType: opts.contentType || 'application/x-www-form-urlencoded'
 		};
 
 		let data = opts.data || {};
@@ -923,7 +924,7 @@ VeamsQuery.ajax = function (opts) {
 			url = options.url + concatChar + params;
 		} else if (options.type === 'POST') {
 			url = options.url;
-			requestData = params;
+            requestData = data;
 		}
 
 		request = new XMLHttpRequest();
@@ -931,7 +932,7 @@ VeamsQuery.ajax = function (opts) {
 
 		// set content type for post request
 		if (options.type === 'POST') {
-			request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			request.setRequestHeader('Content-type', options.contentType);
 		}
 
 		// load handler
