@@ -131,7 +131,7 @@ class VeamsQueryObject {
 
 		for (i; i < this.length; i++) {
 			matchesSelector = this[i].matches || this[i].webkitMatchesSelector || this[i].mozMatchesSelector ||
-					this[i].msMatchesSelector;
+				this[i].msMatchesSelector;
 
 			while (this[i]) {
 				if (matchesSelector.call(this[i], selector)) {
@@ -248,7 +248,7 @@ class VeamsQueryObject {
 						this[i].classList.remove(classes[j]);
 					} else {
 						this[i].className =
-								this[i].className.replace(new RegExp('(^|\\s+)' + classes[j] + '(\\s+|$)'), ' ');
+							this[i].className.replace(new RegExp('(^|\\s+)' + classes[j] + '(\\s+|$)'), ' ');
 					}
 
 					if (!this[i].className.length) {
@@ -358,7 +358,7 @@ class VeamsQueryObject {
 				this[i].insertAdjacentHTML('afterend', element);
 			} else {
 				this[i].parentNode.insertBefore(element && element[0] || element,
-						this[i].nextElementSibling);
+					this[i].nextElementSibling);
 			}
 		}
 
@@ -379,8 +379,8 @@ class VeamsQueryObject {
 			for (j; j >= 0; --j) {
 
 				if (veamsQueryEvents[j].node === this[i] ||
-						veamsQueryEvents[j].selector &&
-						new VeamsQueryObject(veamsQueryEvents[j].node).find(veamsQueryEvents[j].selector).length) {
+					veamsQueryEvents[j].selector &&
+					new VeamsQueryObject(veamsQueryEvents[j].node).find(veamsQueryEvents[j].selector).length) {
 					this[i].removeEventListener(veamsQueryEvents[j].event, veamsQueryEvents[j].handler);
 					veamsQueryEvents.splice(j, 1);
 				}
@@ -408,7 +408,7 @@ class VeamsQueryObject {
 				for (j; j >= 0; --j) {
 
 					if (veamsQueryEvents[j].node === this[i].firstChild ||
-							veamsQueryEvents[j].node === this[i] && veamsQueryEvents[j].selector) {
+						veamsQueryEvents[j].node === this[i] && veamsQueryEvents[j].selector) {
 						this[i].removeEventListener(veamsQueryEvents[j].event, veamsQueryEvents[j].handler);
 						veamsQueryEvents.splice(j, 1);
 					}
@@ -671,7 +671,7 @@ class VeamsQueryObject {
 				field = this[0].elements[i];
 
 				if (field.name && !field.disabled && field.type !== 'file' && field.type !== 'reset' &&
-						field.type !== 'submit' && field.type !== 'button') {
+					field.type !== 'submit' && field.type !== 'button') {
 
 					if (field.type === 'select-multiple') {
 						l = this[0].elements[i].options.length;
@@ -679,8 +679,8 @@ class VeamsQueryObject {
 						for (let j = 0; j < l; j++) {
 							if (field.options[j].selected) {
 								s[s.length] =
-										encodeURIComponent(field.name) + '=' +
-										encodeURIComponent(field.options[j].value.trim());
+									encodeURIComponent(field.name) + '=' +
+									encodeURIComponent(field.options[j].value.trim());
 							}
 						}
 					} else if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
@@ -707,7 +707,7 @@ class VeamsQueryObject {
 		let events = typeof eventNames === 'string' && eventNames.split(' ');
 		let targetSelector = typeof selector === 'string' ? selector : undefined;
 		let evtHandler = typeof selector === 'function' ? selector :
-				typeof handler === 'function' ? handler : undefined;
+			typeof handler === 'function' ? handler : undefined;
 		let capture = typeof handler === 'boolean' ? handler : typeof useCapture === 'boolean' ? useCapture : false;
 		let delegateTarget;
 
@@ -771,7 +771,7 @@ class VeamsQueryObject {
 
 		let targetSelector = typeof selector === 'string' ? selector : undefined;
 		let evtHandler = typeof selector === 'function' ? selector :
-				typeof handler === 'function' ? handler : undefined;
+			typeof handler === 'function' ? handler : undefined;
 
 		for (i; i < this.length; i++) {
 
@@ -783,8 +783,8 @@ class VeamsQueryObject {
 					let unbindEvt = false;
 
 					if (veamsQueryEvents[k].node === this[i] && veamsQueryEvents[k].event === event &&
-							veamsQueryEvents[k].namespace === namespace &&
-							veamsQueryEvents[k].selector === targetSelector) {
+						veamsQueryEvents[k].namespace === namespace &&
+						veamsQueryEvents[k].selector === targetSelector) {
 
 						if (evtHandler) {
 
@@ -870,6 +870,7 @@ VeamsQuery.parseHTML = function (htmlString) {
  * @param {String} [opts.type='GET'] - an alias for method
  * @param {String} opts.url - a string containing the URL to which the request is sent
  * @param {String} [opts.dataType='json'] - data type of response ('json' || 'html' || 'text')
+ * @param {String} [opts.contentType='application/x-www-form-urlencoded'] - content type of post request
  * @param {Object|String|Array} [opts.data] - data to be sent to the server
  */
 VeamsQuery.ajax = function (opts) {
@@ -879,7 +880,8 @@ VeamsQuery.ajax = function (opts) {
 		let options = {
 			type: opts.type && opts.type.toUpperCase() === 'POST' ? 'POST' : 'GET',
 			url: opts.url,
-			dataType: opts.dataType && opts.dataType.toLowerCase() || 'json'
+			dataType: opts.dataType && opts.dataType.toLowerCase() || 'json',
+			contentType: opts.contentType || 'application/x-www-form-urlencoded'
 		};
 
 		let data = opts.data || {};
@@ -914,7 +916,7 @@ VeamsQuery.ajax = function (opts) {
 			url = options.url + concatChar + params;
 		} else if (options.type === 'POST') {
 			url = options.url;
-			requestData = params;
+			requestData = data;
 		}
 
 		request = new XMLHttpRequest();
@@ -922,7 +924,7 @@ VeamsQuery.ajax = function (opts) {
 
 		// set content type for post request
 		if (options.type === 'POST') {
-			request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			request.setRequestHeader('Content-type', options.contentType);
 		}
 
 		// load handler
