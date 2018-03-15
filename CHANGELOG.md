@@ -1,3 +1,12 @@
+### v2.2.10
+- Repack
+
+### v2.2.9
+- Add option for content type + send correct request data in POST
+
+### v2.2.8
+- Convert in TypeScript
+
 ### v2.2.7
 - Repack
 
