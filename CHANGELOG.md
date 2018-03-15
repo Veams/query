@@ -1,3 +1,6 @@
+### v2.2.10
+- Repack
+
 ### v2.2.9
 - Add option for content type + send correct request data in POST
 
