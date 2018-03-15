@@ -1,3 +1,6 @@
+### v2.2.12
+- Remove bower package
+
 ### v2.2.11
 - Update README
 
