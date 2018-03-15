@@ -12,14 +12,14 @@ Represents a very simple DOM API for Veams-JS (incl. ajax support)
 
 ### Installation
 
-#### npm
+#### yarn
 ```
-npm install veams-query --save
+yarn add @veams/query
 ```
 
-#### Bower
+#### npm
 ```
-bower install veams-query --save
+npm install @veams/query --save
 ```
 
 ## Usage
