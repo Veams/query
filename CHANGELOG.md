@@ -1,3 +1,6 @@
+### v2.2.15
+- Fix bug in id selection
+
 ### v2.2.14
 - Update README again
 
