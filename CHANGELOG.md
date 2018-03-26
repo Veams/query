@@ -1,3 +1,6 @@
+### v2.2.16
+- Ignore empty objects as selector
+
 ### v2.2.15
 - Fix bug in id selection
 
