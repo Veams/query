@@ -1,3 +1,6 @@
+### v2.2.17
+- Fix another selector bug
+
 ### v2.2.16
 - Ignore empty objects as selector
 
