@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.2.17
+ * @version v2.2.18
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -28,12 +28,14 @@ export class VeamsQueryObject {
      */
     constructor(selector, context = null) {
         let classes;
-        let scope;
+        let scope = [];
         let queryRes = [];
         let i = 0;
         let j = 0;
 
-        if (!selector || selector.type === 'VeamsQueryObject' && !Object.keys(selector).length) {
+        this.type = 'VeamsQueryObject';
+
+        if (!selector || typeof selector !== 'string' && !selector.nodeType && selector.type !== 'VeamsQueryObject') {
             this.length = 0;
 
             return;
@@ -64,7 +66,7 @@ export class VeamsQueryObject {
             // context is element
             if (context.nodeType) {
                 scope = [context];
-            } else if (context[0] && context[0].nodeType) { // context is VeamsQuery object
+            } else if (context.length && context[0] && context[0].nodeType) { // context is VeamsQuery object
                 scope = context;
             }
         } else {
@@ -105,7 +107,6 @@ export class VeamsQueryObject {
         }
 
         this.length = length;
-        this.type = 'VeamsQueryObject';
     }
 
     /**
@@ -864,7 +865,7 @@ const VeamsQuery = <IVeamsQuery>function (selector = {}, context = null) {
     return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v2.2.17';
+VeamsQuery.version = 'v2.2.18';
 
 /**
  * Return DOM element created from given HTML string

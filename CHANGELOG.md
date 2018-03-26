@@ -1,3 +1,6 @@
+### v2.2.18
+- Fix context selector bug
+
 ### v2.2.17
 - Fix another selector bug
 
