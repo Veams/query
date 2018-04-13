@@ -35,7 +35,7 @@ export class VeamsQueryObject {
 
         this.type = 'VeamsQueryObject';
 
-        if (!selector || typeof selector !== 'string' && !selector.nodeType && selector.type !== 'VeamsQueryObject') {
+        if (!selector || typeof selector !== 'string' && selector !== window && !selector.nodeType && selector.type !== 'VeamsQueryObject') {
             this.length = 0;
 
             return;
