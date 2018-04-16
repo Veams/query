@@ -1,3 +1,9 @@
+### v2.2.20
+- Update version number
+
+### v2.2.19
+- Fix window selection bug
+
 ### v2.2.18
 - Fix context selector bug
 

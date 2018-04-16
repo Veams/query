@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.2.18
+ * @version v2.2.20
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -865,7 +865,7 @@ const VeamsQuery = <IVeamsQuery>function (selector = {}, context = null) {
     return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v2.2.18';
+VeamsQuery.version = 'v2.2.20';
 
 /**
  * Return DOM element created from given HTML string
