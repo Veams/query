@@ -1,3 +1,6 @@
+### v2.2.24
+- Fix bug in .val()
+
 ### v2.2.23
 - Fix #5 (Repack)
 
