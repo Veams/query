@@ -7,7 +7,7 @@
 	"scripts": {
 		"build": "tsc --project tsconfig.json --outDir lib --declarationDir lib --declaration --module commonjs",
 		"start": "tsc --project tsconfig.json --watch --outDir lib --declarationDir lib --declaration --module commonjs",
-		"prepublish": "npm run build"
+		"prepare": "npm run build"
 	},
 	"devDependencies": {
 		"typescript": "^2.7.1"
