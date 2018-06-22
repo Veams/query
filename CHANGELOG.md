@@ -1,3 +1,6 @@
+### v2.4.0
+- Add support for HTML string as parameter for selector function
+
 ### v2.3.0
 - Add support for DOM node and VeamsQuery object as parameter for .html() 
 
