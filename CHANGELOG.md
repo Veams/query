@@ -1,3 +1,6 @@
+### v2.3.0
+- Add support for DOM node and VeamsQuery object as parameter for .html() 
+
 ### v2.2.24
 - Fix bug in .val()
 

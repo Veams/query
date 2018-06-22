@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.2.24
+ * @version v2.3.0
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -275,19 +275,28 @@ export class VeamsQueryObject {
      * Get the HTML contents of the first element in the set of matched elements
      * Set the HTML contents of each element in the set of matched elements
      *
-     * @param {String} [htmlStr] - html string
-     * @return {String|Object} - html contents | VeamsQuery object
+     * @param {String|Object} [element] - HTML string | VeamsQuery object | element
+     * @return {String|Object} - HTML contents | VeamsQuery object
      */
-    html(htmlStr) {
+    html(element) {
         let i = 0;
 
-        if (!htmlStr) {
+        if (!element) {
             return this[0].innerHTML;
         }
 
         for (i; i < this.length; i++) {
             new VeamsQueryObject(this[i]).empty();
-            this[i].innerHTML = htmlStr;
+
+            if (typeof element === 'string') {
+                this[i].innerHTML = element;
+            }
+            else if (element.type === 'VeamsQueryObject' || element.nodeType) {
+                this[i].append(element);
+            }
+            else {
+                console.warn('VeamsQuery :: html() - Parameter has to be an HTML string, DOM node or VeamsQuery object');
+            }
         }
 
         return this;
@@ -296,7 +305,7 @@ export class VeamsQueryObject {
     /**
      * Insert content, specified by the parameter, to the end of each element in the set of matched elements
      *
-     * @param {String|Object} element - html string | VeamsQuery object | element
+     * @param {String|Object} element - HTML string | VeamsQuery object | element
      * @return {Object} - VeamsQuery object
      */
     append(element) {
@@ -316,7 +325,7 @@ export class VeamsQueryObject {
     /**
      * Insert content, specified by the parameter, to the beginning of each element in the set of matched elements
      *
-     * @param {String|Object} element - html string | VeamsQuery object | element
+     * @param {String|Object} element - HTML string | VeamsQuery object | element
      * @return {Object} - VeamsQuery object
      */
     prepend(element) {
@@ -336,7 +345,7 @@ export class VeamsQueryObject {
     /**
      * Insert content, specified by the parameter, before each element in the set of matched elements
      *
-     * @param {String|Object} element - html string | VeamsQuery object | element
+     * @param {String|Object} element - HTML string | VeamsQuery object | element
      * @return {Object} - VeamsQuery object
      */
     before(element) {
@@ -356,7 +365,7 @@ export class VeamsQueryObject {
     /**
      * Insert content, specified by the parameter, after each element in the set of matched elements
      *
-     * @param {String|Object} element - html string | VeamsQuery object | element
+     * @param {String|Object} element - HTML string | VeamsQuery object | element
      * @return {Object} - VeamsQuery object
      */
     after(element) {
@@ -865,12 +874,12 @@ const VeamsQuery = <IVeamsQuery>function (selector = {}, context = null) {
     return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v2.2.24';
+VeamsQuery.version = 'v2.3.0';
 
 /**
  * Return DOM element created from given HTML string
  *
- * @param {String} htmlString - html string to parse
+ * @param {String} htmlString - HTML string to parse
  * @return {Object} - DOM node
  */
 VeamsQuery.parseHTML = function (htmlString) {
