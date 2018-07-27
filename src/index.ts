@@ -878,7 +878,7 @@ export interface IVeamsQuery {
  * @param {String | Object} selector - selector (string, VeamsQuery object, element)
  * @param {Object} [context] - context (VeamsQuery object, element)
  */
-const VeamsQuery = <IVeamsQuery>function (selector = '', context = null) {
+const VeamsQuery = <IVeamsQuery>function (selector = {}, context = null) {
     return new VeamsQueryObject(selector, context);
 };
 
