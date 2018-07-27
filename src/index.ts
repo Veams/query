@@ -865,7 +865,7 @@ export class VeamsQueryObject {
  * VeamsQuery Interface
  */
 export interface IVeamsQuery {
-    (selector?: object|string, context?: any): any;
+    (selector?: object | string, context?: any): any;
 
     version: string,
     parseHTML: any,
@@ -878,7 +878,7 @@ export interface IVeamsQuery {
  * @param {String | Object} selector - selector (string, VeamsQuery object, element)
  * @param {Object} [context] - context (VeamsQuery object, element)
  */
-const VeamsQuery = <IVeamsQuery>function (selector = {}, context = null) {
+const VeamsQuery = <IVeamsQuery>function (selector = '', context = null) {
     return new VeamsQueryObject(selector, context);
 };
 

@@ -1,6 +1,6 @@
 {
 	"name": "@veams/query",
-	"version": "2.4.1",
+	"version": "2.4.2",
 	"description": "Represents a very simple DOM API for Veams-JS (incl. ajax support)",
 	"main": "./lib/index.js",
 	"types": "./lib/index.d.ts",
