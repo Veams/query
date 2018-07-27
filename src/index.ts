@@ -865,7 +865,7 @@ export class VeamsQueryObject {
  * VeamsQuery Interface
  */
 export interface IVeamsQuery {
-    (selector?: object, context?: any): any;
+    (selector?: object|string, context?: any): any;
 
     version: string,
     parseHTML: any,
