@@ -26,7 +26,7 @@ export class VeamsQueryObject {
      * @param {String | VeamsQueryObject | Node} selector - selector (string, VeamsQuery object, element)
      * @param {VeamsQueryObject | Node} [context = null] - context (VeamsQuery object, element)
      */
-    constructor(selector: string | VeamsQueryObject | Node, context: VeamsQueryObject | Node = null) {
+    constructor(selector: any, context: any = null) {
         let classes;
         let scope = [];
         let queryRes = [];
