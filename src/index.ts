@@ -724,7 +724,7 @@ export class VeamsQueryObject {
      * @param {boolean} [useCapture] - Dispatch event to registered listeners before dispatching it to event target
      * @return {VeamsQueryObject} - VeamsQuery object
      */
-    on(eventNames: string, selector?: string, handler: Function, useCapture?: boolean): VeamsQueryObject {
+    on(eventNames: string, selector?: string, handler?: Function, useCapture?: boolean): VeamsQueryObject {
         let i = 0;
         let events = typeof eventNames === 'string' && eventNames.split(' ');
         let targetSelector = typeof selector === 'string' ? selector : undefined;
