@@ -1,3 +1,12 @@
+### v2.4.3
+- Add type declarations
+
+### v2.4.2
+- Fix selector typing #2
+
+### v2.4.1
+- Fix selector typing
+
 ### v2.4.0
 - Add support for HTML string as parameter for selector function
 
