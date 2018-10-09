@@ -1,3 +1,6 @@
+### v2.4.4
+- Fix some type declarations
+
 ### v2.4.3
 - Add type declarations
 
