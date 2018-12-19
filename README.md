@@ -27,13 +27,13 @@ Documentation of all functions (Selector, support and DOM)
 
 ### Selector function
 
-#### VeamsQuery( selector:string|object, context:object )
+#### VeamsQuery( selector: any, context: any = null )
 ``` js
 /**
  * VeamsQuery selector function
  *
- * @param {String | Object} selector - selector (string, VeamsQuery object, element)
- * @param {Object} [context] - context (VeamsQuery object, element)
+ * @param {String | VeamsQueryObject | Node} selector - selector (string, VeamsQuery object, element)
+ * @param {VeamsQueryObject | Node} [context = null] - context (VeamsQuery object, element)
  */
 ```
 
@@ -45,7 +45,7 @@ Documentation of all functions (Selector, support and DOM)
  * Return DOM element created from given HTML string
  *
  * @param {String} htmlString - html string to parse
- * @return {Object} - DOM node
+ * @return {Node} - DOM node
  */
 ```
 
@@ -65,14 +65,14 @@ Documentation of all functions (Selector, support and DOM)
 
 ### DOM functions
 
-#### .find( selector:string|object )
+#### .find( selector:string | VeamsQueryObject | Node )
 ``` js
 /**
  * Get the descendants of each element in the current set of matched elements, filtered by a selector,
  * VeamsQuery object, or element
  *
- * @param {String|Object} selector - selector (string, VeamsQuery object, element)
- * @return {Object} - VeamsQuery object
+ * @param {string  |VeamsQueryObject | Node} selector - Selector (string, VeamsQuery object, element)
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -83,7 +83,17 @@ Documentation of all functions (Selector, support and DOM)
  * the element itself and traversing up through its ancestors in the DOM tree
  *
  * @param {String} selector - selector
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
+ */
+```
+
+#### .add( selector:string | HTMLElement | VeamsQueryObject )
+``` js
+/**
+ * Create a new VeamsQuery object with elements added to the set of matched elements.
+ *
+ * @param {string | HTMLElement | VeamsQueryObject} selector - Selector, HTMLElement or VeamsQueryObject
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -124,7 +134,7 @@ Documentation of all functions (Selector, support and DOM)
  * Add the specified class(es) to each element in the set of matched elements
  *
  * @param {String} classNames - name(s) of class(es) to add
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -134,7 +144,7 @@ Documentation of all functions (Selector, support and DOM)
  * Remove a single class, multiple classes, or all classes from each element in the set of matched elements.
  *
  * @param {String} [classNames] - name(s) of class(es) to remove
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -155,7 +165,7 @@ Documentation of all functions (Selector, support and DOM)
  *
  * @param {String} attrName - attribute name
  * @param {String|Number|Boolean} attrVal - attribute value
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -165,7 +175,7 @@ Documentation of all functions (Selector, support and DOM)
  * Remove an attribute from each element in the set of matched elements
  *
  * @param {String} attrName - attribute name
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -186,7 +196,7 @@ Documentation of all functions (Selector, support and DOM)
  *
  * @param {String|Object} cssProp - css property
  * @param {String} cssVal - css value
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -237,7 +247,7 @@ Documentation of all functions (Selector, support and DOM)
  * Set the HTML contents of each element in the set of matched elements
  *
  * @param {String} htmlStr - html string
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -256,48 +266,48 @@ Documentation of all functions (Selector, support and DOM)
  * Set the content of each element in the set of matched elements to the specified text
  *
  * @param {String} text - text
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
-#### .prepend( element:string|object )
+#### .prepend( element: string | VeamsQueryObject | Node )
 ``` js
 /**
  * Insert content, specified by the parameter, to the beginning of each element in the set
  * of matched elements
  *
- * @param {String|Object} element - html string | VeamsQuery object | element
- * @return {Object} - VeamsQuery object
+ * @param {string|VeamsQueryObject|Node} element - HTML string | VeamsQuery object | element
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
-#### .append( element:string|object )
+#### .append( element: string | VeamsQueryObject | Node )
 ``` js
 /**
  * Insert content, specified by the parameter, to the end of each element in the set of matched elements
  *
- * @param {String|Object} element - html string | VeamsQuery object | element
- * @return {Object} - VeamsQuery object
+ * @param {string|VeamsQueryObject|Node} element - HTML string | VeamsQuery object | element
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
-#### .before( element:string|object )
+#### .before( element: string | VeamsQueryObject | Node )
 ``` js
 /**
  * Insert content, specified by the parameter, before each element in the set of matched elements
  *
- * @param {String|Object} element - html string | VeamsQuery object | element
- * @return {Object} - VeamsQuery object
+ * @param {string|VeamsQueryObject|Node} element - HTML string | VeamsQuery object | element
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
-#### .after( element:string|object )
+#### .after( element: string | VeamsQueryObject | Node )
 ``` js
 /**
  * Insert content, specified by the parameter, after each element in the set of matched elements
  *
- * @param {String|Object} element - html string | VeamsQuery object | element
- * @return {Object} - VeamsQuery object
+ * @param {string|VeamsQueryObject|Node} element - HTML string | VeamsQuery object | element
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -306,7 +316,7 @@ Documentation of all functions (Selector, support and DOM)
 /**
  * Remove the set of matched elements from the DOM
  *
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -315,7 +325,7 @@ Documentation of all functions (Selector, support and DOM)
 /**
  * Remove all child nodes of the set of matched elements from the DOM
  *
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -325,7 +335,7 @@ Documentation of all functions (Selector, support and DOM)
  * Create a deep copy of the first element in the set of matched elements (without data and events)
  *
  * @param {Boolean} [withChildren=false] - clone with children (true/false)
- * @return {Object} - clone of dom node
+ * @return {Node} - clone of dom node
  */
 ```
 
@@ -375,7 +385,7 @@ Documentation of all functions (Selector, support and DOM)
  * Set the value of each element in the set of matched elements
  *
  * @param {String} val - value
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -397,7 +407,7 @@ Documentation of all functions (Selector, support and DOM)
  * @param {String} [selector] - selector string to filter descendants of selected elements triggering the event
  * @param {Function} handler - event handler function
  * @param {Boolean} [useCapture] - dispatch event to registered listeners before dispatching it to event target
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -409,7 +419,7 @@ Documentation of all functions (Selector, support and DOM)
  * @param {String} eventNames - name(s) of event(s) to be unregistered for matched set of elements
  * @param {String} [selector] - selector string to filter descendants of selected elements triggering the event
  * @param {Function} [handler] - event handler
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```
 
@@ -420,6 +430,6 @@ Documentation of all functions (Selector, support and DOM)
  *
  * @param {String} eventNames - name(s) of event(s) which will be trigger on the set of matched elements
  * @param {Object} [customData] - custom data to pass with the event (accessible via event.detail)
- * @return {Object} - VeamsQuery object
+ * @return {VeamsQueryObject} - VeamsQuery object
  */
 ```

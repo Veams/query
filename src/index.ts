@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.4.4
+ * @version v2.5.0
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -35,7 +35,7 @@ export class VeamsQueryObject {
 
         this.type = 'VeamsQueryObject';
 
-        if (!selector || typeof selector !== 'string' && selector !== window && !selector.nodeType && selector.type !== 'VeamsQueryObject') {
+        if (!selector || typeof selector !== 'string' && selector !== window && !selector.nodeType && selector.type !== 'VeamsQueryObject' || selector.type === 'VeamsQueryObject' && selector.length === 0) {
             this.length = 0;
 
             return;
@@ -171,6 +171,26 @@ export class VeamsQueryObject {
     }
 
     /**
+     * Create a new VeamsQuery object with elements added to the set of matched elements.
+     *
+     * @param {string | HTMLElement | VeamsQueryObject} selector - Selector, HTMLElement or VeamsQueryObject
+     * @return {VeamsQueryObject} - VeamsQuery object
+     */
+    add(selector: string | HTMLElement | VeamsQueryObject): VeamsQueryObject {
+        const selectorVeamsQueryObject = new VeamsQueryObject(selector);
+        let newVeamsQueryObject = new VeamsQueryObject(this);
+
+        let i = 0;
+
+        for (i; i < selectorVeamsQueryObject.length; i++) {
+            newVeamsQueryObject[newVeamsQueryObject.length] = selectorVeamsQueryObject[i];
+            newVeamsQueryObject.length++;
+        }
+
+        return newVeamsQueryObject;
+    }
+
+    /**
      * Check if element has given class
      *
      * @param {string} className - Name of class to check
@@ -296,11 +316,9 @@ export class VeamsQueryObject {
 
             if (typeof element === 'string') {
                 this[i].innerHTML = element;
-            }
-            else if (element instanceof VeamsQueryObject || !(element instanceof VeamsQueryObject) && element.nodeType) {
+            } else if (element instanceof VeamsQueryObject || !(element instanceof VeamsQueryObject) && element.nodeType) {
                 this[i].appendChild(element[0] || element);
-            }
-            else {
+            } else {
                 console.warn('VeamsQuery :: html() - Parameter has to be an HTML string, DOM node or VeamsQuery object');
             }
         }
@@ -320,8 +338,14 @@ export class VeamsQueryObject {
         for (i; i < this.length; i++) {
             if (typeof element === 'string') {
                 this[i].insertAdjacentHTML('beforeend', element);
-            } else {
-                this[i].appendChild(element && element[0] || element);
+            } else if (element instanceof VeamsQueryObject) {
+                let j = 0;
+
+                for (j; j < element.length; j++) {
+                    this[i].appendChild(element[j]);
+                }
+            } else if (element.nodeType) {
+                this[i].appendChild(element);
             }
         }
 
@@ -340,8 +364,14 @@ export class VeamsQueryObject {
         for (i; i < this.length; i++) {
             if (typeof element === 'string') {
                 this[i].insertAdjacentHTML('afterbegin', element);
+            } else if (element instanceof VeamsQueryObject) {
+                let j = element.length - 1;
+
+                for (j; j > -1; j--) {
+                    this[i].insertBefore(element[j], this[i].firstChild);
+                }
             } else {
-                this[i].insertBefore(element && element[0] || element, this[i].firstChild);
+                this[i].insertBefore(element, this[i].firstChild);
             }
         }
 
@@ -878,7 +908,7 @@ const VeamsQuery = <IVeamsQuery>function (selector: string | VeamsQueryObject | 
     return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v2.4.4';
+VeamsQuery.version = 'v2.5.0';
 
 /**
  * Return DOM element created from given HTML string

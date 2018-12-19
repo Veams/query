@@ -1,3 +1,8 @@
+### v2.5.0
+- Fix bug in .append() and .prepend()
+- Add .add()
+- Update docs
+
 ### v2.4.4
 - Fix some type declarations
 
