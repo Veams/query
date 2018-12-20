@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.5.0
+ * @version v2.5.1
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -34,9 +34,9 @@ export class VeamsQueryObject {
         let j = 0;
 
         this.type = 'VeamsQueryObject';
+        this.length = 0;
 
         if (!selector || typeof selector !== 'string' && selector !== window && !selector.nodeType && selector.type !== 'VeamsQueryObject' || selector.type === 'VeamsQueryObject' && selector.length === 0) {
-            this.length = 0;
 
             return;
         }
@@ -51,6 +51,21 @@ export class VeamsQueryObject {
 
         // element or window object
         if (selector.nodeType || selector === window) {
+
+            if (context) {
+                let el: Node;
+
+                if (context.type === 'VeamsQueryObject' && context.length) {
+                    el = context[0];
+                } else if (context.nodeType) {
+                    el = context;
+                }
+
+                if (!el.contains(selector)) {
+                    return;
+                }
+            }
+
             this[0] = selector;
             this.length = 1;
 
@@ -58,7 +73,21 @@ export class VeamsQueryObject {
         }
 
         // VeamsQuery object
-        if (selector[0] && selector[0].nodeType) {
+        if (selector.type === 'VeamsQueryObject') {
+
+            if (context) {
+                let el: Node;
+
+                if (context.type === 'VeamsQueryObject' && context.length) {
+                    el = context[0];
+                } else if (context.nodeType) {
+                    el = context;
+                }
+
+                if (!el.contains(selector[0])) {
+                    return;
+                }
+            }
 
             for (let prop in selector) {
                 if (selector.hasOwnProperty(prop)) {
@@ -908,7 +937,7 @@ const VeamsQuery = <IVeamsQuery>function (selector: string | VeamsQueryObject | 
     return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v2.5.0';
+VeamsQuery.version = 'v2.5.1';
 
 /**
  * Return DOM element created from given HTML string

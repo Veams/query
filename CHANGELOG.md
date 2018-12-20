@@ -1,3 +1,6 @@
+### v2.5.1
+- Fix selector bug (issue #7)
+
 ### v2.5.0
 - Fix bug in .append() and .prepend()
 - Add .add()
