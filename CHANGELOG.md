@@ -1,3 +1,6 @@
+### v2.5.2
+- Use custom return type for offset() function
+
 ### v2.5.1
 - Fix selector bug (issue #7)
 
