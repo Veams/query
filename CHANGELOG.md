@@ -1,3 +1,6 @@
+### v2.5.3
+- Fix bug in .closest() function
+
 ### v2.5.2
 - Use custom return type for offset() function
 

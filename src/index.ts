@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.5.2
+ * @version v2.5.3
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -172,26 +172,28 @@ export class VeamsQueryObject {
         let k = 0;
         let returnObj = VeamsQuery();
         let matchesSelector;
+        let tmpObj = new VeamsQueryObject(this);
 
         if (!selector) {
+            returnObj.length = 0;
             return returnObj;
         }
 
-        for (i; i < this.length; i++) {
-            matchesSelector = this[i].matches || this[i].webkitMatchesSelector || this[i].mozMatchesSelector ||
-                this[i].msMatchesSelector;
+        for (i; i < tmpObj.length; i++) {
+            matchesSelector = tmpObj[i].matches || tmpObj[i].webkitMatchesSelector || tmpObj[i].mozMatchesSelector ||
+                tmpObj[i].msMatchesSelector;
 
-            while (this[i]) {
-                if (matchesSelector.call(this[i], selector)) {
+            while (tmpObj[i]) {
+                if (matchesSelector.call(tmpObj[i], selector)) {
                     break;
                 }
-                this[i] = this[i].parentElement;
+                tmpObj[i] = tmpObj[i].parentElement;
             }
         }
 
-        for (j; j < this.length; j++) {
-            if (this[j]) {
-                returnObj[k] = this[j];
+        for (j; j < tmpObj.length; j++) {
+            if (tmpObj[j]) {
+                returnObj[k] = tmpObj[j];
                 k++;
             }
         }
@@ -939,7 +941,7 @@ const VeamsQuery = <IVeamsQuery>function (selector: string | VeamsQueryObject | 
     return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v2.5.2';
+VeamsQuery.version = 'v2.5.3';
 
 /**
  * Return DOM element created from given HTML string
