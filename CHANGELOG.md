@@ -1,3 +1,6 @@
+### v2.6.0
+- Add .each() function
+
 ### v2.5.3
 - Fix bug in .closest() function
 

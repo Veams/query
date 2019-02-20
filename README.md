@@ -398,6 +398,16 @@ Documentation of all functions (Selector, support and DOM)
  */
 ```
 
+#### .each( fn: function)
+``` js
+/**
+ * Iterate over a VeamsQuery object, executing a function for each matched element.
+ *
+ * @param {Function} fn - Callback function
+ * @return {VeamsQueryObject} - VeamsQuery object
+ */
+```
+
 #### .on( eventNames:string[, selector:string] ,handler:function[, useCapture:boolean])
 ``` js
 /**
