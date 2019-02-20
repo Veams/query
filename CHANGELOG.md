@@ -1,3 +1,6 @@
+### v2.6.1
+- Fix context in .each() function
+
 ### v2.6.0
 - Add .each() function
 
