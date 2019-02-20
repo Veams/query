@@ -1,3 +1,6 @@
+### v2.6.2
+- Set return type of .each() callback function to 'void'
+
 ### v2.6.1
 - Fix context in .each() function
 
