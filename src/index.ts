@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.6.2
+ * @version v2.6.3
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -590,10 +590,10 @@ export class VeamsQueryObject {
      * Set the content of each element in the set of matched elements to the specified text
      *
      * @param {string|Object} cssProp - CSS property or property/value object
-     * @param {string} [cssVal] - CSS value
+     * @param {string|number} [cssVal] - CSS value
      * @return {string|Object} - CSS value | VeamsQuery object
      */
-    css(cssProp: string | object, cssVal?: string): string | VeamsQueryObject {
+    css(cssProp: string | object, cssVal?: string | number): string | VeamsQueryObject {
         let i = 0;
 
         if (typeof cssProp === 'string') {
@@ -958,7 +958,7 @@ const VeamsQuery = <IVeamsQuery>function (selector: string | VeamsQueryObject | 
     return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v2.6.2';
+VeamsQuery.version = 'v2.6.3';
 
 /**
  * Return DOM element created from given HTML string
@@ -969,7 +969,7 @@ VeamsQuery.version = 'v2.6.2';
 VeamsQuery.parseHTML = function (htmlString: string): Node {
     let parser = new DOMParser();
     let content = 'text/html';
-    let DOM = parser.parseFromString(htmlString, content);
+    let DOM = parser.parseFromString(htmlString, content as SupportedType);
 
     // return element
     return DOM.body.childNodes[0];

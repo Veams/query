@@ -1,3 +1,6 @@
+### v2.6.3
+- Allow number as css value type in .css() function
+
 ### v2.6.2
 - Set return type of .each() callback function to 'void'
 
