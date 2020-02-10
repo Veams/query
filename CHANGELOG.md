@@ -1,3 +1,6 @@
+### v2.6.4
+- Fix typescript warning
+
 ### v2.6.3
 - Allow number as css value type in .css() function
 
