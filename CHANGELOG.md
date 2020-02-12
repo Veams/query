@@ -1,3 +1,6 @@
+### v2.6.5
+- Fix another typescript warning
+
 ### v2.6.4
 - Fix typescript warning
 

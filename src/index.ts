@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.6.4
+ * @version v2.6.5
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -19,6 +19,8 @@ const classListSupport = 'classList' in document.documentElement;
 const veamsQueryEvents = window['veamsQueryEvents'] = window['veamsQueryEvents'] || [];
 
 export class VeamsQueryObject {
+    [key: number]: any;
+
     length: number;
     type: string;
 
@@ -788,8 +790,8 @@ export class VeamsQueryObject {
         let i: number = 0;
 
         for (i; i < this.length; i++) {
-            const element:HTMLElement = this[i];
-            fn.bind(element , i, element)();
+            const element: HTMLElement = this[i];
+            fn.bind(element, i, element)();
         }
 
         return this;
@@ -943,9 +945,11 @@ export class VeamsQueryObject {
 export interface IVeamsQuery {
     (selector?: HTMLElement | string, context?: any): any;
 
-    version: string,
-    parseHTML: any,
-    ajax: any
+    ajax(opts: AjaxOpts): Promise<void>;
+
+    parseHTML(htmlString: string): Node;
+
+    version: string;
 }
 
 /**
@@ -953,12 +957,13 @@ export interface IVeamsQuery {
  *
  * @param {string | VeamsQueryObject | HTMLElement} selector - selector (string, VeamsQuery object, HTMLElement)
  * @param {VeamsQueryObject | HTMLElement} [context = null] - context (VeamsQuery object, HTMLElement)
+ * @return {VeamsQueryObject}
  */
-const VeamsQuery = <IVeamsQuery>function (selector: string | VeamsQueryObject | HTMLElement, context: VeamsQueryObject | HTMLElement = null) {
+const VeamsQuery: IVeamsQuery = <IVeamsQuery>function (selector: string | VeamsQueryObject | HTMLElement, context: VeamsQueryObject | HTMLElement = null): VeamsQueryObject {
     return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v2.6.4';
+VeamsQuery.version = 'v2.6.5';
 
 /**
  * Return DOM element created from given HTML string
@@ -985,8 +990,9 @@ VeamsQuery.parseHTML = function (htmlString: string): Node {
  * @param {string} [opts.dataType='json'] - data type of response ('json' || 'html' || 'text')
  * @param {string} [opts.contentType='application/x-www-form-urlencoded'] - content type for post request
  * @param {Object|String|Array} [opts.data] - data to be sent to the server
+ * @return {Promise<void>}
  */
-VeamsQuery.ajax = function (opts: AjaxOpts) {
+VeamsQuery.ajax = function (opts: AjaxOpts): Promise<void> {
     return new Promise((resolve, reject) => {
 
         // set options
