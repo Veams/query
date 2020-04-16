@@ -1,3 +1,6 @@
+### v3.0.0
+- Using optional customEventInit parameter for .trigger() function
+
 ### v2.6.5
 - Fix another typescript warning
 

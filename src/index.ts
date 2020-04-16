@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v2.6.5
+ * @version v3.0.0
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -916,10 +916,10 @@ export class VeamsQueryObject {
      * Execute all handlers and behaviors attached to the matched elements for the given event type
      *
      * @param {string} eventNames - name(s) of event(s) which will be trigger on the set of matched elements
-     * @param {object} [customData] - custom data to pass with the event (accessible via event.detail)
+     * @param {CustomEventInit} [customEventInit] - custom event init object
      * @return {VeamsQueryObject} - VeamsQuery object
      */
-    trigger(eventNames: string, customData?: object): VeamsQueryObject {
+    trigger(eventNames: string, customEventInit?: object): VeamsQueryObject {
         let i = 0;
         let events = eventNames.split(' ');
 
@@ -930,7 +930,7 @@ export class VeamsQueryObject {
                 if (typeof this[i][events[j]] === 'function') {
                     this[i][events[j]]();
                 } else {
-                    this[i].dispatchEvent(new CustomEvent(events[j], {detail: customData}));
+                    this[i].dispatchEvent(new CustomEvent(events[j], customEventInit));
                 }
             }
         }
@@ -963,7 +963,7 @@ const VeamsQuery: IVeamsQuery = <IVeamsQuery>function (selector: string | VeamsQ
     return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v2.6.5';
+VeamsQuery.version = 'v3.0.0';
 
 /**
  * Return DOM element created from given HTML string
