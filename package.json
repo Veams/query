@@ -1,13 +1,14 @@
 {
 	"name": "@veams/query",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"description": "Represents a very simple DOM API for Veams-JS (incl. ajax support)",
 	"main": "./lib/index.js",
 	"types": "./lib/index.d.ts",
 	"scripts": {
 		"build": "tsc --project tsconfig.json --outDir lib --declarationDir lib --declaration --module commonjs",
 		"start": "tsc --project tsconfig.json --watch --outDir lib --declarationDir lib --declaration --module commonjs",
-		"prepare": "npm run build"
+		"prepare": "npm run build",
+		"upgrade-interactive": "npm-check --update"
 	},
 	"devDependencies": {
 		"typescript": "^2.7.1"

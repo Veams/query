@@ -1,3 +1,6 @@
+### v3.0.1
+- Remove empty style attributes from elements modified by .css() function
+
 ### v3.0.0
 - Using optional customEventInit parameter for .trigger() function
 
