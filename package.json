@@ -8,10 +8,20 @@
 		"build": "tsc --project tsconfig.json --outDir lib --declarationDir lib --declaration --module commonjs",
 		"start": "tsc --project tsconfig.json --watch --outDir lib --declarationDir lib --declaration --module commonjs",
 		"prepare": "npm run build",
+		"test": "jest",
 		"upgrade-interactive": "npm-check --update"
 	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run test"
+		}
+	},
 	"devDependencies": {
-		"typescript": "^2.7.1"
+		"@testing-library/jest-dom": "^5.11.6",
+		"husky": "^4.3.6",
+		"jest": "^26.6.3",
+		"jest-config": "^26.6.3",
+		"typescript": "^4.1.3"
 	},
 	"authors": [
 		"Andy Gutsche"
@@ -32,5 +42,8 @@
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/veams/veams-query/issues"
+	},
+	"dependencies": {
+		"ts-jest": "^26.4.4"
 	}
 }
