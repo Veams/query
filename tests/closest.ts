@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom';
 import $, {VeamsQueryObject} from '../src';
 
 test('closest() - get closest element (element itself)', () => {

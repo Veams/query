@@ -605,19 +605,19 @@ export class VeamsQueryObject {
 	 */
 	text(text?: string): string | VeamsQueryObject {
 		let i = 0;
-		let combinedText = '';
+		let textArr: string[] = [];
 
 		for (i; i < this.length; i++) {
 
 			if (!text) {
-				combinedText += this[i].innerText;
+				textArr.push(this[i].textContent.trim());
 			} else {
-				this[i].innerText = text;
+				this[i].textContent = text;
 			}
 		}
 
-		if (!text) {
-			return combinedText;
+		if (textArr.length) {
+			return textArr.join(' ');
 		}
 
 		return this;
