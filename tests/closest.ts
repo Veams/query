@@ -11,11 +11,11 @@ test('closest() - get closest element (element itself)', () => {
 		</div>
 	</div>`;
 
-	const $targetEl: VeamsQueryObject = $('.target-el');
-	const $testEl: VeamsQueryObject = $targetEl.closest('.test-el')
+	const $targetEls: VeamsQueryObject = $('.target-el');
+	const $testEls: VeamsQueryObject = $targetEls.closest('.test-el')
 
-	expect($testEl).toHaveLength(1);
-	expect($testEl[0]).toHaveAttribute('id', 'target-el');
+	expect($testEls).toHaveLength(1);
+	expect($testEls[0]).toHaveAttribute('id', 'target-el');
 });
 
 test('closest() - get closest element (parent element)', () => {
@@ -28,11 +28,11 @@ test('closest() - get closest element (parent element)', () => {
 		</div>
 	</div>`;
 
-	const $targetEl: VeamsQueryObject = $('.target-el');
-	const $testEl: VeamsQueryObject = $targetEl.closest('.test-el')
+	const $targetEls: VeamsQueryObject = $('.target-el');
+	const $testEls: VeamsQueryObject = $targetEls.closest('.test-el')
 
-	expect($testEl).toHaveLength(1);
-	expect($testEl[0]).toHaveAttribute('id', 'parent-3');
+	expect($testEls).toHaveLength(1);
+	expect($testEls[0]).toHaveAttribute('id', 'parent-3');
 });
 
 test('closest() - get closest element (grand grand parent element)', () => {
@@ -45,9 +45,9 @@ test('closest() - get closest element (grand grand parent element)', () => {
 		</div>
 	</div>`;
 
-	const $targetEl: VeamsQueryObject = $('.target-el');
-	const $testEl: VeamsQueryObject = $targetEl.closest('.test-el')
+	const $targetEls: VeamsQueryObject = $('.target-el');
+	const $testEls: VeamsQueryObject = $targetEls.closest('.test-el')
 
-	expect($testEl).toHaveLength(1);
-	expect($testEl[0]).toHaveAttribute('id', 'parent-1');
+	expect($testEls).toHaveLength(1);
+	expect($testEls[0]).toHaveAttribute('id', 'parent-1');
 });

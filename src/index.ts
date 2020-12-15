@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v3.0.2
+ * @version v3.0.3
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -27,21 +27,18 @@ export class VeamsQueryObject {
 	/**
 	 * VeamsQuery DOM wrapper object
 	 *
-	 * @param {String | VeamsQueryObject | Node} selector - selector (string, VeamsQuery object, element)
-	 * @param {VeamsQueryObject | Node} [context = null] - context (VeamsQuery object, element)
+	 * @param {String | VeamsQueryObject | HTMLElement} selector - selector (string, VeamsQueryObject, HTMLElement)
+	 * @param {VeamsQueryObject | HTMLElement} [context = null] - context (VeamsQueryObject, HTMLElement)
 	 */
 	constructor(selector: any, context: any = null) {
 		let classes;
 		let scope = [];
 		let queryRes = [];
-		let i = 0;
-		let j = 0;
 
 		this.type = 'VeamsQueryObject';
 		this.length = 0;
 
 		if (!selector || typeof selector !== 'string' && selector !== window && !selector.nodeType && selector.type !== 'VeamsQueryObject' || selector.type === 'VeamsQueryObject' && selector.length === 0) {
-
 			return;
 		}
 
@@ -55,18 +52,30 @@ export class VeamsQueryObject {
 
 		// element or window object
 		if (selector.nodeType || selector === window) {
+			const selectorEl: HTMLElement = selector;
 
 			if (context) {
-				let el: Node;
 
 				if (context.type === 'VeamsQueryObject' && context.length) {
-					el = context[0];
-				} else if (context.nodeType) {
-					el = context;
-				}
+					const $contextEls: VeamsQueryObject = context;
 
-				if (!el.contains(selector)) {
+					let i: number = 0;
+					let j: number = 0;
+
+					for (i; i < $contextEls.length; i++) {
+						if ($contextEls[i].contains(selectorEl)) {
+							this[j] = selectorEl;
+							this.length = j + 1;
+							j++;
+						}
+					}
 					return;
+				} else if (context.nodeType) {
+					const contextEl: HTMLElement = context;
+
+					if (!contextEl.contains(selectorEl)) {
+						return;
+					}
 				}
 			}
 
@@ -80,15 +89,44 @@ export class VeamsQueryObject {
 		if (selector.type === 'VeamsQueryObject') {
 
 			if (context) {
-				let el: Node;
 
 				if (context.type === 'VeamsQueryObject' && context.length) {
-					el = context[0];
-				} else if (context.nodeType) {
-					el = context;
-				}
+					const $contextEls: VeamsQueryObject = context;
+					const $selectorEls: VeamsQueryObject = selector;
 
-				if (!el.contains(selector[0])) {
+					let i: number = 0;
+					let k: number = 0;
+
+					for (i; i < $contextEls.length; i++) {
+						let j: number = 0;
+
+						for (j; j < $selectorEls.length; j++) {
+
+							if ($contextEls[i].contains($selectorEls[j])) {
+								this[k] = $selectorEls[j];
+								this.length = k + 1;
+								k++;
+							}
+						}
+					}
+
+					return;
+				} else if (context.nodeType) {
+					const $selectorEls: VeamsQueryObject = selector;
+					const contextEl: HTMLElement = context;
+
+					let i: number = 0;
+					let j: number = 0;
+
+					for (i; i < $selectorEls.length; i++) {
+						if (contextEl.contains(selector[i])) {
+
+							this[j] = selector[i];
+							this.length = j + 1;
+							j++;
+						}
+					}
+
 					return;
 				}
 			}
@@ -103,7 +141,6 @@ export class VeamsQueryObject {
 		}
 
 		if (context) {
-
 			// context is element
 			if (context.nodeType) {
 				scope = [context];
@@ -114,23 +151,25 @@ export class VeamsQueryObject {
 			scope = [document];
 		}
 
-		for (i; i < scope.length; i++) {
+		let m = 0;
+
+		for (m; m < scope.length; m++) {
 
 			try {
 				if (/^(#?[\w-]+|\.[\w-.]+)$/.test(selector)) {
 					switch (selector.charAt(0)) {
 						case '#':
-							queryRes = [scope[i].querySelector(selector)];
+							queryRes = [scope[m].querySelector(selector)];
 							break;
 						case '.':
 							classes = selector.substr(1).replace(/\./g, ' ');
-							queryRes = queryRes.concat([].slice.call(scope[i].getElementsByClassName(classes)));
+							queryRes = queryRes.concat([].slice.call(scope[m].getElementsByClassName(classes)));
 							break;
 						default:
-							queryRes = queryRes.concat([].slice.call(scope[i].getElementsByTagName(selector)));
+							queryRes = queryRes.concat([].slice.call(scope[m].getElementsByTagName(selector)));
 					}
 				} else {
-					queryRes = queryRes.concat([].slice.call(scope[i].querySelectorAll(selector)));
+					queryRes = queryRes.concat([].slice.call(scope[m].querySelectorAll(selector)));
 				}
 			} catch (e) {
 				console.warn('VeamsQuery :: "', e, '"');
@@ -138,11 +177,12 @@ export class VeamsQueryObject {
 		}
 
 		let length = 0;
+		let n = 0;
 
-		for (j; j < queryRes.length; j++) {
+		for (n; n < queryRes.length; n++) {
 
-			if (queryRes[j]) {
-				this[j] = queryRes[j];
+			if (queryRes[n]) {
+				this[n] = queryRes[n];
 				length++;
 			}
 		}
@@ -374,11 +414,7 @@ export class VeamsQueryObject {
 			if (typeof element === 'string') {
 				this[i].insertAdjacentHTML('beforeend', element);
 			} else if (element instanceof VeamsQueryObject) {
-				let j = 0;
-
-				for (j; j < element.length; j++) {
-					this[i].appendChild(element[j]);
-				}
+				this[i].appendChild(element[0]);
 			} else if (element.nodeType) {
 				this[i].appendChild(element);
 			}
@@ -951,7 +987,7 @@ export class VeamsQueryObject {
  * VeamsQuery Interface
  */
 export interface IVeamsQuery {
-	(selector?: HTMLElement | string, context?: any): any;
+	(selector?: string | VeamsQueryObject | HTMLElement, context?: any): any;
 
 	ajax(opts: AjaxOpts): Promise<void>;
 
@@ -971,7 +1007,7 @@ const VeamsQuery: IVeamsQuery = <IVeamsQuery>function (selector: string | VeamsQ
 	return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v3.0.2';
+VeamsQuery.version = 'v3.0.3';
 
 /**
  * Return DOM element created from given HTML string

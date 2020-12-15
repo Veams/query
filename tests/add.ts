@@ -8,10 +8,10 @@ test('add() - selector string', () => {
     <div id="target-el-3" class="target-el">text content</div>
     <div id="test-el" class="test-el">text content</div>`;
 
-	const $targetEl: VeamsQueryObject = $('.target-el');
-	const $testEls: VeamsQueryObject = $targetEl.add('.test-el');
+	const $targetEls: VeamsQueryObject = $('.target-el');
+	const $testEls: VeamsQueryObject = $targetEls.add('.test-el');
 
-	expect($targetEl).toHaveLength(3);
+	expect($targetEls).toHaveLength(3);
 	expect($testEls).toHaveLength(4);
 	expect($testEls[3]).toHaveAttribute('id', 'test-el');
 });
@@ -23,11 +23,11 @@ test('add() - HTML element', () => {
     <div id="target-el-3" class="target-el">text content</div>
     <div id="test-el" class="test-el">text content</div>`;
 
-	const $targetEl: VeamsQueryObject = $('.target-el');
+	const $targetEls: VeamsQueryObject = $('.target-el');
 	const testEl: HTMLElement = document.getElementById('test-el');
-	const $testEls: VeamsQueryObject = $targetEl.add(testEl);
+	const $testEls: VeamsQueryObject = $targetEls.add(testEl);
 
-	expect($targetEl).toHaveLength(3);
+	expect($targetEls).toHaveLength(3);
 	expect($testEls).toHaveLength(4);
 	expect($testEls[3]).toHaveAttribute('id', 'test-el');
 });
@@ -39,11 +39,11 @@ test('add() - VeamsQueryObject', () => {
     <div id="target-el-3" class="target-el">text content</div>
     <div id="test-el" class="test-el">text content</div>`;
 
-	const $targetEl: VeamsQueryObject = $('.target-el');
+	const $targetEls: VeamsQueryObject = $('.target-el');
 	const $testEl: VeamsQueryObject = $('#test-el');
-	const $testEls: VeamsQueryObject = $targetEl.add($testEl);
+	const $testEls: VeamsQueryObject = $targetEls.add($testEl);
 
-	expect($targetEl).toHaveLength(3);
+	expect($targetEls).toHaveLength(3);
 	expect($testEls).toHaveLength(4);
 	expect($testEls[3]).toHaveAttribute('id', 'test-el');
 });

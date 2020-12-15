@@ -1,3 +1,6 @@
+### v3.0.3
+- Fix bug in selector function
+
 ### v3.0.2
 - Fix bug in .css() function
 
