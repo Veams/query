@@ -1,3 +1,6 @@
+### v3.0.4
+- Fix bug in .off() function
+
 ### v3.0.3
 - Fix bug in selector function
 - Fix bug in .text() function

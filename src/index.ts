@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v3.0.3
+ * @version v3.0.4
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -194,10 +194,10 @@ export class VeamsQueryObject {
 	 * Get the descendants of each element in the current set of matched elements, filtered by a selector,
 	 * VeamsQuery object, or element
 	 *
-	 * @param {string|VeamsQueryObject|Node} selector - Selector (string, VeamsQuery object, element)
+	 * @param {string|VeamsQueryObject|HTMLElement} selector - Selector (string, VeamsQuery object, HTMLElement)
 	 * @return {VeamsQueryObject} - VeamsQuery object
 	 */
-	find(selector: string | VeamsQueryObject | Node): VeamsQueryObject {
+	find(selector: string | VeamsQueryObject | HTMLElement): VeamsQueryObject {
 		return new VeamsQueryObject(selector, this);
 	}
 
@@ -897,6 +897,7 @@ export class VeamsQueryObject {
 					selector: targetSelector,
 					namespace: namespace,
 					internalHandler: internalHandler,
+					capture: capture,
 					externalHandler: evtHandler
 				});
 			}
@@ -945,7 +946,7 @@ export class VeamsQueryObject {
 						}
 
 						if (unbindEvt) {
-							this[i].removeEventListener(event, veamsQueryEvents[k].internalHandler);
+							this[i].removeEventListener(event, veamsQueryEvents[k].internalHandler, veamsQueryEvents[k].capture);
 							veamsQueryEvents.splice(k, 1);
 						}
 					}
@@ -1007,7 +1008,7 @@ const VeamsQuery: IVeamsQuery = <IVeamsQuery>function (selector: string | VeamsQ
 	return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v3.0.3';
+VeamsQuery.version = 'v3.0.4';
 
 /**
  * Return DOM element created from given HTML string
