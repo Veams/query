@@ -85,7 +85,7 @@ export class VeamsQueryObject {
 			return;
 		}
 
-		// VeamsQuery object
+		// VeamsQueryObject
 		if (selector.type === 'VeamsQueryObject') {
 
 			if (context) {
@@ -144,7 +144,7 @@ export class VeamsQueryObject {
 			// context is element
 			if (context.nodeType) {
 				scope = [context];
-			} else if (context.length && context[0] && context[0].nodeType) { // context is VeamsQuery object
+			} else if (context.length && context[0] && context[0].nodeType) { // context is VeamsQueryObject
 				scope = context;
 			}
 		} else {
@@ -192,10 +192,10 @@ export class VeamsQueryObject {
 
 	/**
 	 * Get the descendants of each element in the current set of matched elements, filtered by a selector,
-	 * VeamsQuery object, or element
+	 * VeamsQueryObject, or element
 	 *
-	 * @param {string|VeamsQueryObject|HTMLElement} selector - Selector (string, VeamsQuery object, HTMLElement)
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @param {string|VeamsQueryObject|HTMLElement} selector - Selector (string, VeamsQueryObject, HTMLElement)
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
 	find(selector: string | VeamsQueryObject | HTMLElement): VeamsQueryObject {
 		return new VeamsQueryObject(selector, this);
@@ -206,7 +206,7 @@ export class VeamsQueryObject {
 	 * the element itself and traversing up through its ancestors in the DOM tree
 	 *
 	 * @param {string} selector - Selector
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
 	closest(selector: string): VeamsQueryObject {
 		let i = 0;
@@ -246,10 +246,10 @@ export class VeamsQueryObject {
 	}
 
 	/**
-	 * Create a new VeamsQuery object with elements added to the set of matched elements.
+	 * Create a new VeamsQueryObject with elements added to the set of matched elements.
 	 *
 	 * @param {string | HTMLElement | VeamsQueryObject} selector - Selector, HTMLElement or VeamsQueryObject
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
 	add(selector: string | HTMLElement | VeamsQueryObject): VeamsQueryObject {
 		const selectorVeamsQueryObject = new VeamsQueryObject(selector);
@@ -281,7 +281,7 @@ export class VeamsQueryObject {
 	}
 
 	/**
-	 * Check the current matched set of elements against a selector, element, or VeamsQuery object and return true if
+	 * Check the current matched set of elements against a selector, element, or VeamsQueryObject and return true if
 	 * at least one of these elements matches the given arguments
 	 *
 	 * @param {string} selector - A string containing a selector expression to match elements against
@@ -309,7 +309,7 @@ export class VeamsQueryObject {
 	 * Add the specified class(es) to each element in the set of matched elements.
 	 *
 	 * @param {string} classNames - Name(s) of class(es) to add
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
 	addClass(classNames: string): VeamsQueryObject {
 		let i = 0;
@@ -339,10 +339,10 @@ export class VeamsQueryObject {
 	/**
 	 * Remove a single class, multiple classes, or all classes from each element in the set of matched elements
 	 *
-	 * @param {string} classNames - Name(s) of class(es) to remove
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @param {string} [classNames] - Name(s) of class(es) to remove
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
-	removeClass(classNames: string): VeamsQueryObject {
+	removeClass(classNames?: string): VeamsQueryObject {
 		let i = 0;
 		let classes = classNames && classNames.split(' ');
 
@@ -376,10 +376,10 @@ export class VeamsQueryObject {
 	 * Get the HTML contents of the first element in the set of matched elements
 	 * Set the HTML contents of each element in the set of matched elements
 	 *
-	 * @param {string|VeamsQueryObject|Node} [element] - HTML string | VeamsQuery object | element
-	 * @return {string|VeamsQueryObject} - HTML contents | VeamsQuery object
+	 * @param {string|VeamsQueryObject|HTMLElement} [element] - HTML string | VeamsQueryObject | element
+	 * @return {string|VeamsQueryObject} - HTML contents | VeamsQueryObject
 	 */
-	html(element?: string | VeamsQueryObject | Node): string | VeamsQueryObject {
+	html(element?: string | VeamsQueryObject | HTMLElement): string | VeamsQueryObject {
 		let i = 0;
 
 		if (!element) {
@@ -394,7 +394,7 @@ export class VeamsQueryObject {
 			} else if (element instanceof VeamsQueryObject || !(element instanceof VeamsQueryObject) && element.nodeType) {
 				this[i].appendChild(element[0] || element);
 			} else {
-				console.warn('VeamsQuery :: html() - Parameter has to be an HTML string, DOM node or VeamsQuery object');
+				console.warn('VeamsQuery :: html() - Parameter has to be an HTML string, DOM node or VeamsQueryObject');
 			}
 		}
 
@@ -404,10 +404,10 @@ export class VeamsQueryObject {
 	/**
 	 * Insert content, specified by the parameter, to the end of each element in the set of matched elements
 	 *
-	 * @param {string|VeamsQueryObject|Node} element - HTML string | VeamsQuery object | element
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @param {string|VeamsQueryObject|HTMLElement} element - HTML string | VeamsQueryObject | element
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
-	append(element: string | VeamsQueryObject | Node): VeamsQueryObject {
+	append(element: string | VeamsQueryObject | HTMLElement): VeamsQueryObject {
 		let i = 0;
 
 		for (i; i < this.length; i++) {
@@ -426,10 +426,10 @@ export class VeamsQueryObject {
 	/**
 	 * Insert content, specified by the parameter, to the beginning of each element in the set of matched elements
 	 *
-	 * @param {string|VeamsQueryObject|Node} element - HTML string | VeamsQuery object | element
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @param {string|VeamsQueryObject|HTMLElement} element - HTML string | VeamsQueryObject | element
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
-	prepend(element: string | VeamsQueryObject | Node): VeamsQueryObject {
+	prepend(element: string | VeamsQueryObject | HTMLElement): VeamsQueryObject {
 		let i = 0;
 
 		for (i; i < this.length; i++) {
@@ -452,10 +452,10 @@ export class VeamsQueryObject {
 	/**
 	 * Insert content, specified by the parameter, before each element in the set of matched elements
 	 *
-	 * @param {string|VeamsQueryObject|Node} element - HTML string | VeamsQuery object | element
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @param {string|VeamsQueryObject|HTMLElement} element - HTML string | VeamsQueryObject | element
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
-	before(element: string | VeamsQueryObject | Node): VeamsQueryObject {
+	before(element: string | VeamsQueryObject | HTMLElement): VeamsQueryObject {
 		let i = 0;
 
 		for (i; i < this.length; i++) {
@@ -472,10 +472,10 @@ export class VeamsQueryObject {
 	/**
 	 * Insert content, specified by the parameter, after each element in the set of matched elements
 	 *
-	 * @param {string|VeamsQueryObject|Node} element - HTML string | VeamsQuery object | element
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @param {string|VeamsQueryObject|HTMLElement} element - HTML string | VeamsQueryObject | element
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
-	after(element: string | VeamsQueryObject | Node): VeamsQueryObject {
+	after(element: string | VeamsQueryObject | HTMLElement): VeamsQueryObject {
 		let i = 0;
 
 		for (i; i < this.length; i++) {
@@ -493,7 +493,7 @@ export class VeamsQueryObject {
 	/**
 	 * Remove the set of matched elements from the DOM
 	 *
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
 	remove(): VeamsQueryObject {
 		let i = 0;
@@ -520,7 +520,7 @@ export class VeamsQueryObject {
 	/**
 	 * Remove all child nodes of the set of matched elements from the DOM
 	 *
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
 	empty(): VeamsQueryObject {
 		let i = 0;
@@ -550,7 +550,7 @@ export class VeamsQueryObject {
 	 * Reduce the set of matched elements to the one at the specified index
 	 *
 	 * @param {number} index - Index of element in node list
-	 * @return {VeamsQueryObject} - VeamsQuery object containing node at given index of original node list
+	 * @return {VeamsQueryObject} - VeamsQueryObject containing node at given index of original node list
 	 */
 	eq(index: number): VeamsQueryObject {
 		return new VeamsQueryObject(this[index]);
@@ -562,7 +562,7 @@ export class VeamsQueryObject {
 	 *
 	 * @param {string} attrName - Attribute name
 	 * @param {string|number|boolean} [attrVal] - Attribute value
-	 * @return {string|number|boolean|VeamsQueryObject} - Attribute value | VeamsQuery object
+	 * @return {string|number|boolean|VeamsQueryObject} - Attribute value | VeamsQueryObject
 	 */
 	attr(attrName: string, attrVal?: string | number | boolean): string | number | boolean | VeamsQueryObject {
 		let i = 0;
@@ -582,7 +582,7 @@ export class VeamsQueryObject {
 	 * Remove an attribute from each element in the set of matched elements
 	 *
 	 * @param {string} attrName - attribute name
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
 	removeAttr(attrName: string): VeamsQueryObject {
 		let i = 0;
@@ -601,7 +601,7 @@ export class VeamsQueryObject {
 	 * Set the content of each element in the set of matched elements to the specified text
 	 *
 	 * @param {string} [text] - text
-	 * @return {string|VeamsQueryObject} - Text | VeamsQuery object
+	 * @return {string|VeamsQueryObject} - Text | VeamsQueryObject
 	 */
 	text(text?: string): string | VeamsQueryObject {
 		let i = 0;
@@ -629,7 +629,7 @@ export class VeamsQueryObject {
 	 *
 	 * @param {string|Object} cssProp - CSS property or property/value object
 	 * @param {string|number} [cssVal] - CSS value
-	 * @return {string|Object} - CSS value | VeamsQuery object
+	 * @return {string|Object} - CSS value | VeamsQueryObject
 	 */
 	css(cssProp: string | object, cssVal?: string | number): string | VeamsQueryObject {
 		let i = 0;
@@ -748,7 +748,7 @@ export class VeamsQueryObject {
 	 *
 	 * @param {string} propName - Property name
 	 * @param {string|number|boolean} [propVal] - Property value
-	 * @return {string|number|boolean|VeamsQueryObject} - Property value | VeamsQuery object
+	 * @return {string|number|boolean|VeamsQueryObject} - Property value | VeamsQueryObject
 	 */
 	prop(propName: string, propVal?: string | number | boolean): string | number | boolean | VeamsQueryObject {
 		let i = 0;
@@ -769,7 +769,7 @@ export class VeamsQueryObject {
 	 * Set the value of each element in the set of matched elements
 	 *
 	 * @param {string | number} [val] - Value
-	 * @return {string|number|Array|VeamsQueryObject} - value | VeamsQuery object
+	 * @return {string|number|Array|VeamsQueryObject} - value | VeamsQueryObject
 	 */
 	val(val?: string | number): string | number | string [] | VeamsQueryObject {
 		let i = 0;
@@ -825,10 +825,10 @@ export class VeamsQueryObject {
 	}
 
 	/**
-	 * Iterate over a VeamsQuery object, executing a function for each matched element.
+	 * Iterate over a VeamsQueryObject, executing a function for each matched element.
 	 *
 	 * @param {Function} fn - Callback function
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
 	each(fn: (index: number, element: HTMLElement) => void): VeamsQueryObject {
 		let i: number = 0;
@@ -848,7 +848,7 @@ export class VeamsQueryObject {
 	 * @param {string} [selector] - Selector string to filter descendants of selected elements triggering the event
 	 * @param {Function} handler - Event handler function
 	 * @param {boolean} [useCapture] - Dispatch event to registered listeners before dispatching it to event target
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
 	on(eventNames: string, selector?: string, handler?: Function, useCapture?: boolean): VeamsQueryObject {
 		let i = 0;
@@ -912,7 +912,7 @@ export class VeamsQueryObject {
 	 * @param {string} eventNames - Name(s) of event(s) to be unregistered for matched set of elements
 	 * @param {string} [selector] - Selector string to filter descendants of selected elements triggering the event
 	 * @param {Function} [handler] - Event handler
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
 	off(eventNames: string, selector?: string, handler?: Function): VeamsQueryObject {
 		let i = 0;
@@ -962,7 +962,7 @@ export class VeamsQueryObject {
 	 *
 	 * @param {string} eventNames - name(s) of event(s) which will be trigger on the set of matched elements
 	 * @param {CustomEventInit} [customEventInit] - custom event init object
-	 * @return {VeamsQueryObject} - VeamsQuery object
+	 * @return {VeamsQueryObject} - VeamsQueryObject
 	 */
 	trigger(eventNames: string, customEventInit?: object): VeamsQueryObject {
 		let i = 0;
@@ -1000,15 +1000,22 @@ export interface IVeamsQuery {
 /**
  * VeamsQuery selector function
  *
- * @param {string | VeamsQueryObject | HTMLElement} selector - selector (string, VeamsQuery object, HTMLElement)
- * @param {VeamsQueryObject | HTMLElement} [context = null] - context (VeamsQuery object, HTMLElement)
+ * @param {string | VeamsQueryObject | HTMLElement} selector - selector (string, VeamsQueryObject, HTMLElement)
+ * @param {VeamsQueryObject | HTMLElement} [context = null] - context (VeamsQueryObject, HTMLElement)
  * @return {VeamsQueryObject}
  */
 const VeamsQuery: IVeamsQuery = <IVeamsQuery>function (selector: string | VeamsQueryObject | HTMLElement, context: VeamsQueryObject | HTMLElement = null): VeamsQueryObject {
 	return new VeamsQueryObject(selector, context);
 };
 
-VeamsQuery.version = 'v3.0.4';
+/**
+ * Set current version
+ */
+Object.defineProperty(VeamsQuery, 'version', {
+    value: '3.0.4',
+	configurable: false,
+    writable: false
+});
 
 /**
  * Return DOM element created from given HTML string

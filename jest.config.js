@@ -1,7 +1,7 @@
 const {defaults} = require('jest-config');
 
 const testMatch = defaults.testMatch
-testMatch.push('**/tests/**/trigger.ts');
+testMatch.push('**/tests/**/*.ts');
 testMatch.push('!**/*.d.ts');
 
 module.exports = {

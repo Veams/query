@@ -399,10 +399,7 @@ test('$() - selector (HTMLElement) with context HTMLElement', () => {
 });
 
 test('$() - create element from HTML string', () => {
-
 	const $contextEl: VeamsQueryObject = $('<div id="context-el" class="context-el"><span id="target-el">text content</span></div>');
-
-	console.log('typeof $contextEl[0]: ', typeof $contextEl[0]);
 
 	expect($contextEl).toHaveLength(1);
 	expect($contextEl[0].tagName).toBe('DIV');
