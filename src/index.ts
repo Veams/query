@@ -2,7 +2,7 @@
  * Represents a very simple DOM API for Veams-JS (incl. ajax support)
  *
  * @module VeamsQuery
- * @version v3.0.4
+ * @version v3.0.5
  *
  * Polyfills: npm install promise-polyfill --save-exact
  *
@@ -1012,7 +1012,7 @@ const VeamsQuery: IVeamsQuery = <IVeamsQuery>function (selector: string | VeamsQ
  * Set current version
  */
 Object.defineProperty(VeamsQuery, 'version', {
-    value: '3.0.4',
+    value: '3.0.5',
 	configurable: false,
     writable: false
 });

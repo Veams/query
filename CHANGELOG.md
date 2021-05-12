@@ -1,3 +1,6 @@
+### v3.0.5
+- Update package info
+
 ### v3.0.4
 - Fix bug in .off() function
 
